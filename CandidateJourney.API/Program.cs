@@ -1,5 +1,4 @@
 using System.Text;
-using CandidateJourney.API;
 using CandidateJourney.Application;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
@@ -7,11 +6,10 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
-builder.Services.AddControllers();
+builder.Services
+    .AddGraphQLServer();
+
 builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-builder.Services.AddMvc(mvcOptions => mvcOptions.Filters.Add(typeof(CustomExceptionFilterAttribute)));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
@@ -28,21 +26,24 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     options.RequireHttpsMetadata = false;
 });
 
+builder.Services.AddAuthorization();
 
 builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
-app.UseSwagger();
-app.UseSwaggerUI(o =>
-{
-    o.SwaggerEndpoint("/swagger/v1/swagger.json", "");
-    o.RoutePrefix = string.Empty;
-});
+
+app.MapGraphQL();
 
 app.UseHsts();
 app.UseHttpsRedirection();
 app.UseCors();
 app.UseAuthentication();
 app.UseAuthorization();
-app.MapControllers();
+
+app.MapFallback(context =>
+{
+    context.Response.Redirect("/graphql");
+    return Task.CompletedTask;
+});
+
 app.Run();
