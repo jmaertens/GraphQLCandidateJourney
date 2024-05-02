@@ -21,4 +21,9 @@
       <ProjectReference Include="..\CandidateJourney.Application\CandidateJourney.Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="GraphQlTypes\" />
+      <Folder Include="Mutations\" />
+    </ItemGroup>
+
 </Project>
