@@ -1,5 +1,4 @@
-﻿
-namespace CandidateJourney.Domain
+﻿namespace CandidateJourney.Domain
 {
     public class ContactHistory
     {

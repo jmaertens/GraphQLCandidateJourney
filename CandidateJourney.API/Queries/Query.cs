@@ -1,7 +1,22 @@
-﻿namespace CandidateJourney.API.Queries
+﻿using CandidateJourney.Domain;
+using CandidateJourney.Infrastructure;
+using Microsoft.EntityFrameworkCore;
+
+namespace CandidateJourney.API.Queries
 {
+    [QueryType]
     public class Query
     {
-        public string GetApiStatus() => "Running";
+        private readonly CandidateJourneyDbContext _context;
+
+        public Query(CandidateJourneyDbContext context)
+        {
+            _context = context;
+        }
+        
+        public string Available()
+        {
+            return "Available";
+        }
     }
 }

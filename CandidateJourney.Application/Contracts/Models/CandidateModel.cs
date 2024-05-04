@@ -16,8 +16,8 @@ namespace CandidateJourney.Application.Contracts.Models
         public string? PhoneNumber { get; set; }
         public string? Specialization { get; set; }
         public DateTime? DateOfGraduation { get; set; }
-        public CandidateType CandidateType { get; set; }
-        public GraduationType GraduationType { get; set; }
+        public CandidateIntent CandidateType { get; set; }
+        public AcademicDegree GraduationType { get; set; }
         public string? PictureName { get; set; }
         public List<string> Interests { get; set; }
         public string? ExtraInfo { get; set; }

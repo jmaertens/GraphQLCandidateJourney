@@ -17,7 +17,7 @@ public class CreateEventTests
         // Mock IEventRepo
         var eventRepositoryMock = new Mock<IEventRepository>();
         // Setup methods
-        var @event = new Event("Name", "Organizer", "Location", DateTime.Now, null, TargetAudienceType.All, "", "");
+        var @event = new Event("Name", "Organizer", "Location", DateTime.Now, null, AudienceCategory.All, "", "");
         eventRepositoryMock.Setup(repo => repo.UpdateEvent(It.IsAny<Event>())).Returns((Event e) => Task.FromResult(e));
         eventRepositoryMock.Setup(repo => repo.FindById(It.IsAny<Guid>())).Returns(Task.FromResult(@event));
         // Create EventService with mapper and EventRepo mock
@@ -29,7 +29,7 @@ public class CreateEventTests
             FirstName = "FirstName",
             LastName = "LastName",
             Email = "FirstName.LastName@email.com",
-            CandidateType = CandidateType.Internship,
+            CandidateType = CandidateIntent.Internship,
             Interests = new List<string>() { "Microsoft Development" }
         };
         var eventModel = await eventService.AddCandidateToEventAsync(@event.Id, createCandidateCommand);
@@ -38,7 +38,7 @@ public class CreateEventTests
         Assert.Equal("FirstName", eventModel.Candidates[0].FirstName);
         Assert.Equal("LastName", eventModel.Candidates[0].LastName);
         Assert.Equal("FirstName.LastName@email.com", eventModel.Candidates[0].Email);
-        Assert.Equal(CandidateType.Internship, eventModel.Candidates[0].CandidateType);
+        Assert.Equal(CandidateIntent.Internship, eventModel.Candidates[0].CandidateType);
         Assert.Equal("Microsoft Development", eventModel.Candidates[0].Interests[0]);
     }
 

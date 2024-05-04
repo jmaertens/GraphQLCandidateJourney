@@ -16,6 +16,7 @@ public class User
     public bool IsRegistered => PasswordHash != null;
 
     public bool IsDeleted { get; set; }
+
     public User(string firstName, string lastName, string emailAddress)
     {
         Id = Guid.NewGuid();

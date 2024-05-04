@@ -1,6 +1,8 @@
 using System.Text;
+using CandidateJourney.API.GraphQlTypes;
 using CandidateJourney.API.Queries;
 using CandidateJourney.Application;
+using CandidateJourney.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -9,11 +11,7 @@ var config = builder.Configuration;
 
 builder.Services
     .AddGraphQLServer()
-    .AddQueryType<Query>()
-    .AddTypeExtension<UserQueries>()
-    .AddTypeExtension<EventQueries>()
-    .ModifyRequestOptions(options => options.IncludeExceptionDetails = true);
-
+    .AddAPITypes();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

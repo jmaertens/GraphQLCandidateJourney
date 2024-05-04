@@ -17,7 +17,7 @@ namespace CandidateJourney.Application.Contracts.Models
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
-        public TargetAudienceType TargetAudience { get; set; }
+        public AudienceCategory TargetAudience { get; set; }
         public List<CandidateModel> Candidates { get; set; }
         public UserExportModel CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }

@@ -9,8 +9,8 @@
         public string? PhoneNumber { get; private init; }
         public string? Specialization { get; private init; }
         public DateTime? DateOfGraduation { get; private init; }
-        public CandidateType CandidateType { get; private init; }
-        public GraduationType GraduationType { get; private init; }
+        public CandidateIntent CandidateType { get; private init; }
+        public AcademicDegree GraduationType { get; private init; }
         public string? PictureName { get; private init; }
         public List<string> Interests { get; private init; }
         public List<ContactHistory> ContactHistories { get; set; }
@@ -22,7 +22,7 @@
         }
 
         public Candidate(string firstName, string lastName, string email, string? phoneNumber,
-            string? specialization, DateTime? dateOfGraduation, CandidateType candidateType, GraduationType graduationType,
+            string? specialization, DateTime? dateOfGraduation, CandidateIntent candidateType, AcademicDegree graduationType,
             string? pictureName, List<string> interests, string? extraInfo)
         {
             Id = Guid.NewGuid();

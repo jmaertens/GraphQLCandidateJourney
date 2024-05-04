@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Net.Mail;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CandidateJourney.Domain
+﻿namespace CandidateJourney.Domain
 {
     public class Event
     {
@@ -18,7 +10,7 @@ namespace CandidateJourney.Domain
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
-        public TargetAudienceType TargetAudience { get; set; }
+        public AudienceCategory TargetAudience { get; set; }
         public List<Candidate> Candidates { get; set; }
         public User CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
@@ -45,7 +37,7 @@ namespace CandidateJourney.Domain
         private Event() { }
 
         public Event(string name, string organizer, string location, DateTime startDateTime, DateTime? endDateTime, 
-            TargetAudienceType targetAudienceType, string? description, string? eventLink)
+            AudienceCategory targetAudienceType, string? description, string? eventLink)
         {
             Id = Guid.NewGuid();
             Name = name;

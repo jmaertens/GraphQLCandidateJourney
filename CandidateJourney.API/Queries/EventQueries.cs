@@ -4,12 +4,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CandidateJourney.API.Queries
 {
-    [ExtendObjectType(typeof(Query))]
-    public class EventQueries : Query
+    [QueryType]
+    public class EventQueries
     {
-        public async Task<IEnumerable<Event>> GetEvents([Service] CandidateJourneyDbContext dbContext)
+        public async Task<IEnumerable<Event>> GetAllEvents([Service] CandidateJourneyDbContext context, CancellationToken cancellationToken)
         {
-            return await dbContext.Events.ToListAsync();
+            return await context.Events.ToListAsync(cancellationToken);
         }
     }
 }

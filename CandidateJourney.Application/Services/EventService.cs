@@ -27,7 +27,7 @@ namespace CandidateJourney.Application.Services
             string? pictureName = null;
             var newCandidate = new Candidate(command.FirstName!, command.LastName!,
                  command.Email!, command.PhoneNumber, command.Specialization,
-                 command.DateOfGraduation, command.CandidateType!, command.GraduationType!, pictureName,
+                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!, pictureName,
                  command.Interests!, command.ExtraInfo);
 
             @event.AddCandidate(newCandidate);

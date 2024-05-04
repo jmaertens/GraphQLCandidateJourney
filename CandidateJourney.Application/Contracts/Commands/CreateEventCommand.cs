@@ -17,7 +17,7 @@ namespace CandidateJourney.Application.Contracts.Commands
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
-        public TargetAudienceType TargetAudience { get; set; }
+        public AudienceCategory TargetAudience { get; set; }
     }
 
     public class CreateEventCommandValidator : AbstractValidator<CreateEventCommand>

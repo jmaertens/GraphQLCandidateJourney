@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32922.545
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateJourney.API", "CandidateJourney.API\CandidateJourney.API.csproj", "{06ED778F-EADC-4859-95E2-D9EBD7D19752}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "API", "CandidateJourney.API\API.csproj", "{06ED778F-EADC-4859-95E2-D9EBD7D19752}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateJourney.Application", "CandidateJourney.Application\CandidateJourney.Application.csproj", "{F1612778-A9B8-40B9-A740-D2DD1411E6AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "CandidateJourney.Application\Application.csproj", "{F1612778-A9B8-40B9-A740-D2DD1411E6AC}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateJourney.Domain", "CandidateJourney.Domain\CandidateJourney.Domain.csproj", "{228C02AB-A453-4F3E-9AF4-3AD81CC3C6FA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "CandidateJourney.Domain\Domain.csproj", "{228C02AB-A453-4F3E-9AF4-3AD81CC3C6FA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateJourney.Infrastructure", "CandidateJourney.Infrastructure\CandidateJourney.Infrastructure.csproj", "{6E88E8BB-918F-47DB-8B2F-E0753418B582}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CandidateJourney.Tests", "CandidateJourney.Tests\CandidateJourney.Tests.csproj", "{C2F5C4C7-73F2-4A3D-9117-A745BD91B136}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "CandidateJourney.Tests\Tests.csproj", "{C2F5C4C7-73F2-4A3D-9117-A745BD91B136}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
