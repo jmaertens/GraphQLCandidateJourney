@@ -1,4 +1,5 @@
 using System.Text;
+using Application.Abstractions;
 using Application.Services;
 using CandidateJourney.API.GraphQlTypes;
 using CandidateJourney.API.Queries;
@@ -10,11 +11,11 @@ using Microsoft.IdentityModel.Tokens;
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
 
+builder.Services.AddScoped<IEventService, EventService>();
+
 builder.Services
     .AddGraphQLServer()
     .AddAPITypes();
-
-builder.Services.AddScoped<GQLEventService>();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

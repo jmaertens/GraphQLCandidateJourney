@@ -1,15 +1,14 @@
-﻿using Application.InputTypes;
-using Application.Services;
+﻿using Application.Abstractions;
+using Application.InputTypes;
 using CandidateJourney.Domain;
 using CandidateJourney.Infrastructure;
-using FluentValidation;
 
 namespace API.Mutations
 {
     [MutationType]
     public class EventMutations
     {
-        public async Task<Event> AddEventAsync([Service] CandidateJourneyDbContext context, [Service] GQLEventService eventService, CreateEventInput input, CancellationToken cancellationToken) =>
+        public async Task<Event> AddEventAsync([Service] CandidateJourneyDbContext context, [Service] IEventService eventService, CreateEventInput input, CancellationToken cancellationToken) =>
             await eventService.AddEventAsync(context, input, cancellationToken);
     }
 }

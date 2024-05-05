@@ -1,10 +1,11 @@
-﻿using Application.InputTypes;
+﻿using Application.Abstractions;
+using Application.InputTypes;
 using CandidateJourney.Domain;
 using CandidateJourney.Infrastructure;
 
 namespace Application.Services
 {
-    public class GQLEventService
+    public class EventService : IEventService
     {
         public async Task<Event> AddEventAsync(CandidateJourneyDbContext context, CreateEventInput input, CancellationToken cancellationToken)
         {
