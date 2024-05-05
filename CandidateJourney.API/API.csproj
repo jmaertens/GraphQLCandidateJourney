@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -6,6 +6,17 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <UserSecretsId>5b763ee7-66dc-4fc4-8dda-345788948168</UserSecretsId>
     </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Resolvers\**" />
+      <Compile Remove="Schemas\**" />
+      <Content Remove="Resolvers\**" />
+      <Content Remove="Schemas\**" />
+      <EmbeddedResource Remove="Resolvers\**" />
+      <EmbeddedResource Remove="Schemas\**" />
+      <None Remove="Resolvers\**" />
+      <None Remove="Schemas\**" />
+    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="Azure.Storage.Blobs" Version="12.13.1" />
@@ -21,17 +32,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CandidateJourney.Application\Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Mutations\" />
-      <Folder Include="Schemas\" />
-      <Folder Include="Resolvers\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="GraphQlTypes\" />
-      <Folder Include="Mutations\" />
     </ItemGroup>
 
 </Project>

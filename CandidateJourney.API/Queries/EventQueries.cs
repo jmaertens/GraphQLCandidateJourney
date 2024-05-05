@@ -9,7 +9,7 @@ namespace CandidateJourney.API.Queries
     {
         public async Task<IEnumerable<Event>> GetAllEvents([Service] CandidateJourneyDbContext context, CancellationToken cancellationToken)
         {
-            return await context.Events.ToListAsync(cancellationToken);
+            return await context.Events.Include(e => e.CreatedBy).ToListAsync(cancellationToken);
         }
     }
 }
