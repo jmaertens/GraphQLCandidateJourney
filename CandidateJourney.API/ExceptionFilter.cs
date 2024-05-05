@@ -2,7 +2,6 @@ using System.Net;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using CandidateJourney.Application.Contracts.Models;
 
 namespace CandidateJourney.API;
 
@@ -17,7 +16,7 @@ public class CustomExceptionFilterAttribute : ExceptionFilterAttribute
 
     public override void OnException(ExceptionContext context)
     {
-        var exception = context.Exception;
+        /*var exception = context.Exception;
         var response = context.HttpContext.Response;
 
         ErrorMessageModel errorDto;
@@ -40,6 +39,6 @@ public class CustomExceptionFilterAttribute : ExceptionFilterAttribute
         context.ExceptionHandled = true;
         response.StatusCode = (int)statusCode;
         response.ContentType = "application/json";
-        context.Result = new ObjectResult(errorDto);
+        context.Result = new ObjectResult(errorDto);*/
     }
 }

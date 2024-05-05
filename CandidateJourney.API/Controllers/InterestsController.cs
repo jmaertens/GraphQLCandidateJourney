@@ -1,7 +1,4 @@
-﻿using CandidateJourney.Application.Contracts.Commands;
-using CandidateJourney.Application.Services;
-using FluentValidation;
-using Microsoft.AspNetCore.Http;
+﻿using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -10,7 +7,7 @@ namespace CandidateJourney.API.Controllers
     [Route("api/interests")]
     [ApiController]
     public class InterestsController : ControllerBase
-    {
+    {/*
         private readonly IInterestService _interestService;
 
         public InterestsController(IInterestService interestService)
@@ -94,6 +91,6 @@ namespace CandidateJourney.API.Controllers
             }
             await _interestService.DeleteInterestAsync(id);
             return NoContent();
-        }
+        }*/
     }
 }

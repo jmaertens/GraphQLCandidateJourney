@@ -1,9 +1,4 @@
-﻿using CandidateJourney.Application.Contracts.Commands;
-using CandidateJourney.Application.Services;
-using FluentValidation;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace CandidateJourney.API.Controllers
 {
@@ -11,6 +6,7 @@ namespace CandidateJourney.API.Controllers
     [Route("api/events")]
     public class EventController : ControllerBase
     {
+        /*
         private readonly IEventService _eventService;
         private readonly IBlobService _blobService;
 
@@ -189,6 +185,6 @@ namespace CandidateJourney.API.Controllers
             {
                 return NotFound();
             }
-        }
+        }*/
     }
 }
