@@ -15,7 +15,9 @@ builder.Services.AddScoped<IEventService, EventService>();
 
 builder.Services
     .AddGraphQLServer()
-    .AddAPITypes();
+    .AddAPITypes()
+    .AddFiltering()
+    .AddSorting();
 
 builder.Services.AddCors(options => options.AddDefaultPolicy(policyBuilder => policyBuilder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

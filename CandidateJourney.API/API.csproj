@@ -8,13 +8,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Compile Remove="Resolvers\**" />
       <Compile Remove="Schemas\**" />
-      <Content Remove="Resolvers\**" />
       <Content Remove="Schemas\**" />
-      <EmbeddedResource Remove="Resolvers\**" />
       <EmbeddedResource Remove="Schemas\**" />
-      <None Remove="Resolvers\**" />
       <None Remove="Schemas\**" />
     </ItemGroup>
 
