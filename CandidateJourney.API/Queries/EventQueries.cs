@@ -30,5 +30,17 @@ namespace CandidateJourney.API.Queries
         {
             return eventService.GetEventByIdAsync(context, eventId, cancellationToken);
         }
+
+        [GraphQLDescription("Retrieve a candidate by Id from an event.")]
+        public async Task<Candidate> GetCandidateById(
+            [Service] IEventService eventService,
+            [Service] CandidateJourneyDbContext context,
+            [GraphQLDescription("Id of the event.")] Guid eventId,
+            [GraphQLDescription("Id of the candidate.")] Guid candidateId,
+            CancellationToken cancellationToken)
+        {
+            return await eventService.GetCandidateByIdAsync(context, eventId, candidateId, cancellationToken);
+        }
+
     }
 }

@@ -40,5 +40,15 @@ namespace API.Mutations
         {
             return await eventService.ArchiveEventAsync(context, eventId, cancellationToken);
         }
+
+        public async Task<Event> DeleteCandidateFromEventAsync(
+            Guid eventId,
+            Guid candidateId,
+            [Service] IEventService eventService,
+            [Service] CandidateJourneyDbContext context,
+            CancellationToken cancellationToken)
+        {
+            return await eventService.DeleteCandidateByIdAsync(context, eventId, candidateId, cancellationToken);
+        }
     }
 }

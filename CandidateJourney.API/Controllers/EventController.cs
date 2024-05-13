@@ -53,6 +53,17 @@ namespace CandidateJourney.API.Controllers
             var events = await _eventService.GetAllPreviousEventsAsync(pageNumber, filterString);
             return Ok(events);
         }
+
+        [Route("{eventId}")]
+        [HttpGet]
+        [SwaggerOperation(Summary = "Get an event by id", Description = "Returns event by given id")]
+        [SwaggerResponse(200, "Ok")]
+        public async Task<IActionResult> GetEvent(Guid eventId)
+        {
+            var foundEvent = await _eventService.GetEventByIdAsync(eventId);
+            return Ok(foundEvent);
+        }
+        
         [HttpPost]
         [SwaggerOperation(Summary = "Registers an event to the database", Description = "Registers an event to the database")]
         [SwaggerResponse(201, "Created")]
@@ -65,17 +76,7 @@ namespace CandidateJourney.API.Controllers
             var newEvent = await _eventService.AddEventAsync(command);
             return CreatedAtAction(nameof(AddEvent), new { id = newEvent.Id }, newEvent);
         }
-
-        [Route("{eventId}")]
-        [HttpGet]
-        [SwaggerOperation(Summary = "Get an event by id", Description = "Returns event by given id")]
-        [SwaggerResponse(200, "Ok")]
-        public async Task<IActionResult> GetEvent(Guid eventId)
-        {
-            var foundEvent = await _eventService.GetEventByIdAsync(eventId);
-            return Ok(foundEvent);
-        }
-
+        
         [Route("{eventId}/candidates")]
         [HttpPost]
         [SwaggerOperation(Summary = "Registers a candidate to an event to the database", Description = "Registers a candidate to an event to the database")]

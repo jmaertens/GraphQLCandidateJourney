@@ -93,5 +93,36 @@ namespace Application.Services
             await context.SaveChangesAsync(cancellationToken);
             return @event;
         }
+
+        public async Task<Candidate> GetCandidateByIdAsync(CandidateJourneyDbContext context, Guid eventId, Guid candidateId, CancellationToken cancellationToken)
+        {
+            var @event = await context.Events.Include(e => e.Candidates).FirstOrDefaultAsync(e => e.Id == eventId, cancellationToken);
+
+            if (@event == null)
+                throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));
+
+            var candidate = @event.Candidates.FirstOrDefault(c => c.Id == candidateId);
+
+            if (candidate == null)
+                throw new GraphQLException(new Error($"Candidate with Id {candidateId} not found in event with Id {eventId}.", "CANDIDATE_NOT_FOUND"));
+
+            return candidate;
+        }
+        
+        public async Task<Event> DeleteCandidateByIdAsync(CandidateJourneyDbContext context, Guid eventId, Guid candidateId, CancellationToken cancellationToken)
+        {
+            //Check
+            var @event = await context.Events.Include(e => e.Candidates).FirstOrDefaultAsync(e => e.Id == eventId);
+            if (@event == null)
+                throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));
+
+            var candidate = @event.Candidates.FirstOrDefault(c => c.Id == candidateId);
+            if (candidate == null)
+                throw new GraphQLException(new Error($"Candidate with Id {candidateId} not found in event with Id {eventId}.", "CANDIDATE_NOT_FOUND"));
+
+            @event.Candidates.Remove(candidate);
+            await context.SaveChangesAsync(cancellationToken);
+            return @event;
+        }
     }
 }

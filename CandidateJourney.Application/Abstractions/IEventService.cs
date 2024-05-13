@@ -15,5 +15,7 @@ namespace Application.Abstractions
         Task<Event> UpdateEventAsync(CandidateJourneyDbContext context, Guid eventId, UpdateEventInput input, CancellationToken cancellationToken);
         Task<Event> ArchiveEventAsync(CandidateJourneyDbContext context, Guid eventId, CancellationToken cancellationToken);
         Task<Candidate> AddCandidateToEventAsync(CandidateJourneyDbContext context, Guid eventId, CreateCandidateInput input, CancellationToken cancellationToken);
+        Task<Candidate> GetCandidateByIdAsync(CandidateJourneyDbContext context, Guid eventId, Guid candidateId, CancellationToken cancellationToken);
+        Task<Event> DeleteCandidateByIdAsync(CandidateJourneyDbContext context, Guid eventId, Guid candidateId, CancellationToken cancellationToken);
     }
 }

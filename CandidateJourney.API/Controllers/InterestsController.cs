@@ -17,16 +17,6 @@ namespace CandidateJourney.API.Controllers
             _interestService = interestService;
         }
 
-        [HttpGet("GetAllInterestNames")]
-        [SwaggerOperation(Summary = "Get all interest names", Description = "Returns all interest names")]
-        [SwaggerResponse(200, "Ok")]
-        [SwaggerResponse(404, "Not Found")]
-        public async Task<IActionResult> GetAllInterestsName()
-        {
-            var interests = await _interestService.GetAllInterestNamesAsync();
-            return Ok(interests);
-        }
-
         [HttpGet("GetAllInterests")]
         [SwaggerOperation(Summary = "Get all interests", Description = "Returns all interests")]
         [SwaggerResponse(200, "Ok")]
@@ -36,7 +26,17 @@ namespace CandidateJourney.API.Controllers
             var interests = await _interestService.GetAllInterestsAsync();
             return Ok(interests);
         }
-
+        
+        [HttpGet("GetAllInterestNames")]
+        [SwaggerOperation(Summary = "Get all interest names", Description = "Returns all interest names")]
+        [SwaggerResponse(200, "Ok")]
+        [SwaggerResponse(404, "Not Found")]
+        public async Task<IActionResult> GetAllInterestsName()
+        {
+            var interests = await _interestService.GetAllInterestNamesAsync();
+            return Ok(interests);
+        }
+        
         [HttpGet("{id}")]
         [SwaggerOperation(Summary = "Get interest by id", Description = "Returns interest by id")]
         [SwaggerResponse(200, "Ok")]
