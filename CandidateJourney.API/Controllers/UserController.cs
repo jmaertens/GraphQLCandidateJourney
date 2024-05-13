@@ -1,7 +1,10 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using CandidateJourney.Application.Contracts.Commands;
+using CandidateJourney.Application.Contracts.Models;
 using CandidateJourney.Application.Contracts.Queries;
+using CandidateJourney.Application.Services;
 using FluentValidation;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -13,11 +16,11 @@ namespace CandidateJourney.API.Controllers;
 [ApiController]
 [Route("api/users")]
 public class UserController: ControllerBase
-{/*
-    private readonly IUserService _userService;
+{
+    private readonly IRestUserService _userService;
     private readonly IConfiguration _configuration;
 
-    public UserController(IUserService userService, IConfiguration configuration)
+    public UserController(IRestUserService userService, IConfiguration configuration)
     {
         _userService = userService;
         _configuration = configuration;
@@ -139,5 +142,5 @@ public class UserController: ControllerBase
         {
             return NotFound();
         }
-    }*/
+    }
 }

@@ -89,7 +89,7 @@ namespace CandidateJourney.Application.Services
             return _mapper.Map<EventModel>(@event);
         }
 
-        public async Task<EventModel> ChangeEventAsync(Guid eventId, UpdateEventCommand command)
+        public async Task<EventModel> UpdateEventAsync(Guid eventId, UpdateEventCommand command)
         {
             var @event = await _eventRepository.FindById(eventId);
             if (@event == null) throw new Exception("Event not found.");

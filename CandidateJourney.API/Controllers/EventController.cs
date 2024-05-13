@@ -1,4 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using CandidateJourney.Application.Contracts.Commands;
+using CandidateJourney.Application.Services;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using System.Text;
 
 namespace CandidateJourney.API.Controllers
 {
@@ -6,14 +11,11 @@ namespace CandidateJourney.API.Controllers
     [Route("api/events")]
     public class EventController : ControllerBase
     {
-        /*
-        private readonly IEventService _eventService;
-        private readonly IBlobService _blobService;
+        private readonly IRestEventService _eventService;
 
-        public EventController(IEventService eventService, IBlobService blobService)
+        public EventController(IRestEventService eventService)
         {
             _eventService = eventService;
-            _blobService = blobService;
         }
 
         [HttpGet("GetAllUpcomingEvents")]
@@ -108,41 +110,19 @@ namespace CandidateJourney.API.Controllers
             candidate.ContactHistories.ForEach(h => h.CreatedOn = h.CreatedOn.ToLocalTime());
             return Ok(candidate);
         }
-
-        [HttpGet]
-        [Route("exportCsv/{eventId}")]
-        [SwaggerOperation(Summary = "Gets all candidates of an event", Description = "Returns all candidates of an event")]
-        [SwaggerResponse(200, "Ok")]
-        public async Task<IActionResult> Export(Guid eventId)
-        {
-            var builder = await _eventService.GetCandidateExportByEventIdAsync(eventId);
-            return File(Encoding.UTF8.GetBytes(builder), "text/csv", "Candidates.csv");
-        }
-
-        [Route("candidates/pictures/{pictureName}")]
-        [HttpGet]
-        [SwaggerOperation(Summary = "Gets all picture of an candidate",
-            Description = "Returns SAS uri of a candidate picture")]
-        [SwaggerResponse(200, "Ok")]
-        public async Task<IActionResult> GetPhoto(string pictureName)
-        {
-            var imageUri = await _blobService.GetBlobUri(pictureName);
-            return Ok(new { link = imageUri });
-        }
-
-
+        
         [Route("{eventId}")]
         [HttpPut]
         [SwaggerOperation(Summary = "Updates an event", Description = "Updates an event")]
         [SwaggerResponse(200, "Ok")]
         [SwaggerResponse(404, "Not Found")]
-        public async Task<IActionResult> ChangeEvent(Guid eventId, [FromBody] UpdateEventCommand command)
+        public async Task<IActionResult> UpdateEvent(Guid eventId, [FromBody] UpdateEventCommand command)
         {
             try
             {
                 var validator = new UpdateEventCommandValidator();
                 await validator.ValidateAndThrowAsync(command);
-                var updatedEvent = await _eventService.ChangeEventAsync(eventId, command);
+                var updatedEvent = await _eventService.UpdateEventAsync(eventId, command);
                 return Ok(updatedEvent);
             }
             catch (Exception ex)
@@ -185,6 +165,6 @@ namespace CandidateJourney.API.Controllers
             {
                 return NotFound();
             }
-        }*/
+        }
     }
 }
