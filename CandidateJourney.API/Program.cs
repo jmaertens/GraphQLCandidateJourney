@@ -12,6 +12,7 @@ var config = builder.Configuration;
 
 // Services GraphQl
 builder.Services.AddScoped<IEventService, EventService>();
+builder.Services.AddScoped<IInterestService, InterestService>();
 builder.Services
     .AddGraphQLServer()
     .AddAPITypes()
