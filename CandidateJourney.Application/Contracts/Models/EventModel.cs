@@ -4,6 +4,40 @@ namespace CandidateJourney.Application.Contracts.Models
 {
     public class EventModel
     {
+        public EventModel(
+            Guid id,
+            string name,
+            string organizer,
+            string location,
+            DateTime startDateTime,
+            AudienceCategory targetAudience,
+            UserExportModel createdBy,
+            DateTime createdOn,
+            bool isDeleted,
+            string? description = null,
+            string? eventLink = null,
+            DateTime? endDateTime = null,
+            List<CandidateModel>? candidates = null,
+            UserExportModel? updatedBy = null,
+            DateTime? updatedOn = null)
+        {
+            Id = id;
+            Name = name;
+            Organizer = organizer;
+            Location = location;
+            StartDateTime = startDateTime;
+            TargetAudience = targetAudience;
+            CreatedBy = createdBy;
+            CreatedOn = createdOn;
+            IsDeleted = isDeleted;
+            Description = description;
+            EventLink = eventLink;
+            EndDateTime = endDateTime;
+            Candidates = candidates ?? new List<CandidateModel>();
+            UpdatedBy = updatedBy;
+            UpdatedOn = updatedOn;
+        }
+
         public Guid Id { get; set; }
         public string Name { get; set; }
         public string? Description { get; set; }

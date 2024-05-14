@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions;
 using Application.InputTypes;
-using Application.InputTypes.Application.InputTypes;
 using CandidateJourney.Domain;
 using CandidateJourney.Infrastructure;
 using HotChocolate;
@@ -57,7 +56,7 @@ namespace Application.Services
 
             var candidate = new Candidate(input.FirstName, input.LastName, input.Email, input.PhoneNumber,
                                               input.Specialization, input.DateOfGraduation, input.CandidateType,
-                                              input.GraduationType, input.PictureName, input.Interests, input.ExtraInfo);
+                                              input.GraduationType, input.Interests, input.ExtraInfo);
 
             @event.AddCandidate(candidate);
             await context.SaveChangesAsync(cancellationToken);

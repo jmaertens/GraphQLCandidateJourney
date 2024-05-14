@@ -1,24 +1,47 @@
 ﻿using CandidateJourney.Domain;
+using HotChocolate;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Application.InputTypes
 {
-    namespace Application.InputTypes
+    [GraphQLName("UpdateEventInput")]
+    [GraphQLDescription("Input type for updating an existing event.")]
+    public class UpdateEventInput
     {
-        public class UpdateEventInput
+        public UpdateEventInput(string name, string description, string organizer, string location, string eventLink, DateTime startDateTime, AudienceCategory targetAudience, DateTime? endDateTime = null)
         {
-            public string Name { get; set; }
-            public string Description { get; set; }
-            public string Organizer { get; set; }
-            public string Location { get; set; }
-            public string EventLink { get; set; }
-            public DateTime StartDateTime { get; set; }
-            public DateTime? EndDateTime { get; set; }
-            public AudienceCategory TargetAudience { get; set; }
+            Name = name;
+            Description = description;
+            Organizer = organizer;
+            Location = location;
+            EventLink = eventLink;
+            StartDateTime = startDateTime;
+            TargetAudience = targetAudience;
+            EndDateTime = endDateTime;
         }
+
+        [GraphQLDescription("The name of the event.")]
+        public string Name { get; set; }
+
+        [GraphQLDescription("The description of the event.")]
+        public string Description { get; set; }
+
+        [GraphQLDescription("The organizer of the event.")]
+        public string Organizer { get; set; }
+
+        [GraphQLDescription("The location of the event.")]
+        public string Location { get; set; }
+
+        [GraphQLDescription("The link to the event.")]
+        public string EventLink { get; set; }
+
+        [GraphQLDescription("The start date and time of the event.")]
+        public DateTime StartDateTime { get; set; }
+
+        [GraphQLDescription("The end date and time of the event (optional).")]
+        public DateTime? EndDateTime { get; set; }
+
+        [GraphQLDescription("The target audience of the event.")]
+        public AudienceCategory TargetAudience { get; set; }
     }
 }

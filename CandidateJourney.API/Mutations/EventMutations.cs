@@ -1,6 +1,5 @@
 ﻿using Application.Abstractions;
 using Application.InputTypes;
-using Application.InputTypes.Application.InputTypes;
 using CandidateJourney.Domain;
 using CandidateJourney.Infrastructure;
 
@@ -9,11 +8,13 @@ namespace API.Mutations
     [MutationType]
     public class EventMutations
     {
+        [GraphQLDescription("Add a new event.")]
         public async Task<Event> AddEventAsync([Service] CandidateJourneyDbContext context, [Service] IEventService eventService, CreateEventInput input, CancellationToken cancellationToken) =>
             await eventService.AddEventAsync(context, input, cancellationToken);
 
+        [GraphQLDescription("Add a new candidate to an event by its Id.")]
         public async Task<Candidate> AddCandidateToEventAsync(
-            Guid eventId,
+            [GraphQLDescription("Id of the event where a candidate should be added to.")] Guid eventId,
             CreateCandidateInput input,
             [Service] IEventService eventService,
             [Service] CandidateJourneyDbContext context,
@@ -22,8 +23,9 @@ namespace API.Mutations
             return await eventService.AddCandidateToEventAsync(context, eventId, input, cancellationToken);
         }
 
+        [GraphQLDescription("Update an event by its Id.")]
         public async Task<Event> UpdateEventAsync(
-            Guid eventId,
+            [GraphQLDescription("Id of the event to update.")] Guid eventId,
             UpdateEventInput input,
             [Service] IEventService eventService,
             [Service] CandidateJourneyDbContext context,
@@ -32,8 +34,9 @@ namespace API.Mutations
             return await eventService.UpdateEventAsync(context, eventId, input, cancellationToken);
         }
 
+        [GraphQLDescription("Archive an event by its Id.")]
         public async Task<Event> ArchiveEventAsync(
-            Guid eventId,
+            [GraphQLDescription("Id of the event to archive.")] Guid eventId,
             [Service] IEventService eventService,
             [Service] CandidateJourneyDbContext context,
             CancellationToken cancellationToken)
@@ -41,9 +44,10 @@ namespace API.Mutations
             return await eventService.ArchiveEventAsync(context, eventId, cancellationToken);
         }
 
+        [GraphQLDescription("Delete an event by its Id.")]
         public async Task<Event> DeleteCandidateFromEventAsync(
-            Guid eventId,
-            Guid candidateId,
+            [GraphQLDescription("Id of the event.")] Guid eventId,
+            [GraphQLDescription("Id of the candidate to delete from event.")] Guid candidateId,
             [Service] IEventService eventService,
             [Service] CandidateJourneyDbContext context,
             CancellationToken cancellationToken)

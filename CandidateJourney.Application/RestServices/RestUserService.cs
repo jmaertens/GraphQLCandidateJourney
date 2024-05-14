@@ -47,7 +47,7 @@ public class RestUserService : IRestUserService
 
     public async Task<UserModel> RegisterUser(RegisterUserCommand command)
     {
-        var user = await _userRepository.FindById(command.RegistrationId!.Value);
+        var user = await _userRepository.FindById(command.RegistrationId!);
         if (user == null || user.IsRegistered) throw new Exception("No pending registration was found.");
 
         var hashedPassword = BCrypt.Net.BCrypt.HashPassword(command.Password);

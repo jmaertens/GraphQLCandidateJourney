@@ -4,6 +4,11 @@ namespace CandidateJourney.Application.Contracts.Commands
 {
     public class CreateInterestCommand
     {
+        public CreateInterestCommand(string name)
+        {
+            Name = name;
+        }
+
         public string Name { get; set; }
     }
 

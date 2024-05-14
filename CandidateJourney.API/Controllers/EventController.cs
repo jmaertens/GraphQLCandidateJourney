@@ -126,7 +126,7 @@ namespace CandidateJourney.API.Controllers
                 var updatedEvent = await _eventService.UpdateEventAsync(eventId, command);
                 return Ok(updatedEvent);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return NotFound();
             }
@@ -144,7 +144,7 @@ namespace CandidateJourney.API.Controllers
                 var updatedEvent = await _eventService.ArchiveEventAsync(eventId);
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return NotFound();
             }
@@ -162,7 +162,7 @@ namespace CandidateJourney.API.Controllers
                 var updatedEvent = await _eventService.RemoveCandidateByIdAsync(eventId, candidateId);
                 return Ok();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return NotFound();
             }

@@ -2,6 +2,20 @@
 {
     public class CandidateExportModel
     {
+        public CandidateExportModel(string firstName, string lastName, string email, string candidateType, string graduationType,
+            List<string> interests, string? phoneNumber = null, string? specialization = null, DateTime? dateOfGraduation = null)
+        {
+            FirstName = firstName;
+            LastName = lastName;
+            Email = email;
+            CandidateType = candidateType;
+            GraduationType = graduationType;
+            Interests = interests ?? new List<string>();
+            PhoneNumber = phoneNumber;
+            Specialization = specialization;
+            DateOfGraduation = dateOfGraduation;
+        }
+
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Email { get; set; }

@@ -71,7 +71,7 @@ public class UserController: ControllerBase
     [Route("registration/{registrationId}")]
     public async Task<IActionResult> GetRegistration(Guid? registrationId)
     {
-        var user = await _userService.GetUnregisteredUser(registrationId!.Value);
+        var user = await _userService.GetUnregisteredUser(registrationId.Value);
 
         return Ok(new RegistrationModel
         {
@@ -138,7 +138,7 @@ public class UserController: ControllerBase
             var updatedUser = await _userService.ArchiveUserAsync(userId);
             return Ok();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             return NotFound();
         }

@@ -8,9 +8,20 @@ namespace CandidateJourney.API.GraphQLTypes
         protected override void Configure(IObjectTypeDescriptor<ContactHistory> descriptor)
         {
             descriptor.BindFieldsExplicitly();
-            descriptor.Field(ch => ch.Id).Type<NonNullType<IdType>>();
-            descriptor.Field(ch => ch.CreatedBy).Type<NonNullType<ObjectType<User>>>();
-            descriptor.Field(ch => ch.CreatedOn).Type<NonNullType<DateTimeType>>();
+
+            descriptor.Description("Contact history of a candidate.");
+
+            descriptor.Field(ch => ch.Id)
+                .Type<NonNullType<IdType>>()
+                .Description("The ID of the contact history");
+
+            descriptor.Field(ch => ch.CreatedBy)
+                .Type<NonNullType<ObjectType<User>>>()
+                .Description("The user who created the contact history");
+
+            descriptor.Field(ch => ch.CreatedOn)
+                .Type<NonNullType<DateTimeType>>()
+                .Description("The creation date of the contact history");
         }
     }
 }

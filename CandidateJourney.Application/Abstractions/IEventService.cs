@@ -1,8 +1,6 @@
 ﻿using Application.InputTypes;
-using Application.InputTypes.Application.InputTypes;
 using CandidateJourney.Domain;
 using CandidateJourney.Infrastructure;
-using HotChocolate;
 
 namespace Application.Abstractions
 {

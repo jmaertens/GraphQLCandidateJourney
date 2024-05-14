@@ -1,14 +1,35 @@
 ﻿using CandidateJourney.Domain;
 using FluentValidation;
+using System;
 
 namespace CandidateJourney.Application.Contracts.Commands
 {
     public class UpdateEventCommand
     {
-        public string? Name { get; set; }
-        public string? Description { get; set; }
-        public string? Organizer { get; set; }
-        public string? Location { get; set; }
+        public UpdateEventCommand(
+            string name,
+            string description,
+            string organizer,
+            string location,
+            DateTime startDateTime,
+            AudienceCategory targetAudience,
+            string? eventLink = null,
+            DateTime? endDateTime = null)
+        {
+            Name = name;
+            Description = description;
+            Organizer = organizer;
+            Location = location;
+            StartDateTime = startDateTime;
+            EndDateTime = endDateTime;
+            TargetAudience = targetAudience;
+            EventLink = eventLink;
+        }
+
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Organizer { get; set; }
+        public string Location { get; set; }
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }

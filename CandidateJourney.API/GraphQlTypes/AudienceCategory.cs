@@ -8,8 +8,16 @@ namespace CandidateJourney.API.GraphQLTypes
         protected override void Configure(IEnumTypeDescriptor<AudienceCategory> descriptor)
         {
             descriptor.BindValuesExplicitly();
-            descriptor.Value(AudienceCategory.Student).Name("STUDENT");
-            descriptor.Value(AudienceCategory.All).Name("ALL");
+
+            descriptor.Description("Defines the target audience category for an event.");
+            
+            descriptor.Value(AudienceCategory.Student)
+                .Name("STUDENT")
+                .Description("The event is targeted towards students.");
+
+            descriptor.Value(AudienceCategory.All)
+                .Name("ALL")
+                .Description("The event is open to all audiences.");
         }
     }
 }

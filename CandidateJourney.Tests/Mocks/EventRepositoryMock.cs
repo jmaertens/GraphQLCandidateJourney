@@ -14,8 +14,8 @@ public static class EventRepositoryMock
 
     public static List<Candidate> Candidates { get; set; } = new List<Candidate>
     {
-        new Candidate("firstName", "lastName", "candidate@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Internship, AcademicDegree.Bachelor, null, new List<string> { "interest1", "interest2" }, "extraInfo"),
-        new Candidate("firstName2", "lastName2", "candidate2@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Job, AcademicDegree.Doctorate, null, new List<string> { "interest3", "interest4" }, "extraInfo2")
+        new Candidate("firstName", "lastName", "candidate@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Internship, AcademicDegree.Bachelor, new List<string> { "interest1", "interest2" }, "extraInfo"),
+        new Candidate("firstName2", "lastName2", "candidate2@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Job, AcademicDegree.Doctorate, new List<string> { "interest3", "interest4" }, "extraInfo2")
     };
 
     public static Mock<IEventRepository> GetEventTemplateRepository()

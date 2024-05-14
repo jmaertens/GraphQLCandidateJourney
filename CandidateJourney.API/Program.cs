@@ -52,6 +52,18 @@ builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
 
+app.Use(async (context, next) =>
+{
+    if (context.Request.Path == "/index.html")
+    {
+        context.Response.Redirect("/graphql");
+    }
+    else
+    {
+        await next();
+    }
+});
+
 // Mapping
 app.MapGraphQL();
 app.MapControllers();
@@ -67,7 +79,7 @@ app.UseAuthorization();
 app.UseSwagger();
 app.UseSwaggerUI(options =>
 {
-    options.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
     options.RoutePrefix = string.Empty;
 });
 

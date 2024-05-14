@@ -25,7 +25,7 @@ namespace CandidateJourney.Application.Services
             string? pictureName = null;
             var newCandidate = new Candidate(command.FirstName!, command.LastName!,
                  command.Email!, command.PhoneNumber, command.Specialization,
-                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!, pictureName,
+                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!,
                  command.Interests!, command.ExtraInfo);
 
             @event.AddCandidate(newCandidate);
@@ -127,8 +127,19 @@ namespace CandidateJourney.Application.Services
                     });
                     interestBuilder.Remove(interestBuilder.Length - 1, 1);
                 }
-                builder.AppendLine($"{can.FirstName};{can.LastName};{can.Email};{can.PhoneNumber};" +
-                    $"{can.Specialization};{can.DateOfGraduation.Value.ToString("M/yyyy")};{can.GraduationType};{can.CandidateType};{interestBuilder}; {can.ExtraInfo}");
+                
+                var dateOfGraduation = can.DateOfGraduation.HasValue ? can.DateOfGraduation.Value.ToString("M/yyyy") : string.Empty;
+
+                if (can.DateOfGraduation.HasValue)
+                {
+                    builder.AppendLine($"{can.FirstName};{can.LastName};{can.Email};{can.PhoneNumber};" +
+                                       $"{can.Specialization};{can.GraduationType};{dateOfGraduation};{can.CandidateType};{interestBuilder}; {can.ExtraInfo}");
+                }
+                else
+                {
+                    builder.AppendLine($"{can.FirstName};{can.LastName};{can.Email};{can.PhoneNumber};" +
+                                       $"{can.Specialization};{can.GraduationType};{can.CandidateType};{interestBuilder};{can.ExtraInfo}");
+                }
             }
             return builder.ToString();
         }
@@ -136,7 +147,17 @@ namespace CandidateJourney.Application.Services
         public async Task<CandidateModel> GetCandidateByIdAsync(Guid eventId, Guid candidateId)
         {
             Event @event = await _eventRepository.FindById(eventId);
-            Candidate candidate = @event.Candidates.SingleOrDefault(c => c.Id == candidateId);
+            if (@event == null)
+            {
+                throw new Exception($"Event with Id {eventId} not found.");
+            }
+
+            Candidate? candidate = @event.Candidates.SingleOrDefault(c => c.Id == candidateId);
+            if (candidate == null)
+            {
+                throw new Exception($"Candidate with Id {candidateId} not found in event with Id {eventId}.");
+            }
+
             return _mapper.Map<CandidateModel>(candidate);
         }
 

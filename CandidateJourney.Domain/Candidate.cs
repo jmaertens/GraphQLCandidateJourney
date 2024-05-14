@@ -23,7 +23,7 @@
 
         public Candidate(string firstName, string lastName, string email, string? phoneNumber,
             string? specialization, DateTime? dateOfGraduation, CandidateIntent candidateType, AcademicDegree graduationType,
-            string? pictureName, List<string> interests, string? extraInfo)
+            List<string> interests, string? extraInfo)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
@@ -34,7 +34,6 @@
             DateOfGraduation = dateOfGraduation;
             CandidateType = candidateType;
             GraduationType = graduationType;
-            PictureName = pictureName;
             Interests = interests;
             ExtraInfo = extraInfo;
         }
