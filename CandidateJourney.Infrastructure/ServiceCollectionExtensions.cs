@@ -16,7 +16,8 @@ public static class ServiceCollectionExtensions
         var connectionString = configuration.GetConnectionString("DefaultConnection");
         services.AddHttpContextAccessor();
         services.AddDbContext<CandidateJourneyDbContext>(options => options.UseSqlServer(connectionString));
-        
+        services.AddScoped<DatabaseSeeder>();
+
         return services;
     }
 }

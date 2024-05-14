@@ -2,8 +2,7 @@ using System.Text;
 using Application.Abstractions;
 using Application.Services;
 using CandidateJourney.Application;
-using CandidateJourney.Application.Services;
-using CandidateJourney.Infrastructure.Repositories;
+using CandidateJourney.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 
@@ -82,6 +81,13 @@ app.UseSwaggerUI(options =>
     options.SwaggerEndpoint("/swagger/v1/swagger.json", "API V1");
     options.RoutePrefix = string.Empty;
 });
+
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    var seeder = services.GetRequiredService<DatabaseSeeder>();
+    seeder.Seed();
+}
 
 app.MapFallback(context =>
 {

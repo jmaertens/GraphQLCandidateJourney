@@ -70,7 +70,6 @@ namespace CandidateJourney.API.GraphQLTypes
             descriptor.Field(e => e.IsDeleted)
                 .Type<NonNullType<BooleanType>>()
                 .Description("Indicates whether the event is deleted");
-
         }
     }
 }
