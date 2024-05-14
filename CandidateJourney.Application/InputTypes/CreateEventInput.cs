@@ -1,4 +1,5 @@
 ﻿using CandidateJourney.Domain;
+using FluentValidation;
 using HotChocolate;
 
 namespace Application.InputTypes
@@ -50,5 +51,18 @@ namespace Application.InputTypes
 
         [GraphQLDescription("The target audience of the event.")]
         public AudienceCategory TargetAudience { get; set; }
+    }
+
+    public class CreateEventInputValidator : AbstractValidator<CreateEventInput>
+    {
+        public CreateEventInputValidator()
+        {
+            RuleFor(newEvent => newEvent.Name).NotEmpty().WithMessage("Name is required");
+            RuleFor(newEvent => newEvent.Location).NotEmpty().WithMessage("Location is required");
+            RuleFor(newEvent => newEvent.Organizer).NotEmpty().WithMessage("Organizer is required");
+            RuleFor(newEvent => newEvent.TargetAudience).IsInEnum().WithMessage("TargetAudience must be a valid enum value");
+            RuleFor(newEvent => newEvent).Must(newEvent => newEvent.EndDateTime >= newEvent.StartDateTime || newEvent.EndDateTime == null)
+                .WithMessage("EndDateTime must be greater than StartDateTime");
+        }
     }
 }

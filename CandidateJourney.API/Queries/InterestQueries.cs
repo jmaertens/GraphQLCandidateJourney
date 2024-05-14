@@ -20,9 +20,10 @@ namespace API.Queries
         public async Task<Interest> GetInterestById(
             [Service] CandidateJourneyDbContext context, 
             [Service] IInterestService interestService,
-            [GraphQLDescription("Id of the interest to retrieve.")] int interestId)
+            [GraphQLDescription("Id of the interest to retrieve.")] int interestId, 
+            CancellationToken cancellation)
         {
-            return await interestService.GetInterestByIdAsync(context, interestId);
+            return await interestService.GetInterestByIdAsync(context, interestId, cancellation);
         }
     }
 }

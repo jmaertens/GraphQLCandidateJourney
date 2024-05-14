@@ -2,11 +2,9 @@
 using Application.InputTypes;
 using CandidateJourney.Domain;
 using CandidateJourney.Infrastructure;
+using FluentValidation;
 using HotChocolate;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System.Threading;
-
 namespace Application.Services
 {
     public class EventService : IEventService
@@ -29,7 +27,7 @@ namespace Application.Services
         }
 
         public async Task<Event> GetEventByIdAsync(CandidateJourneyDbContext context, Guid eventId, CancellationToken cancellationToken)
-        {
+        {            
             var @event = await context.Events.Include(e => e.Candidates).FirstOrDefaultAsync(e => e.Id == eventId && !e.IsDeleted, cancellationToken);
             if (@event == null)
                 throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));
@@ -39,6 +37,15 @@ namespace Application.Services
 
         public async Task<Event> AddEventAsync(CandidateJourneyDbContext context, CreateEventInput input, CancellationToken cancellationToken)
         {
+            var validator = new CreateEventInputValidator();
+
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+
             var newEvent = new Event(input.Name, input.Organizer, input.Location, input.StartDateTime, input.EndDateTime,
                 input.TargetAudience, input.Description, input.EventLink);
 
@@ -54,6 +61,15 @@ namespace Application.Services
             if (@event == null)
                 throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));
 
+            var validator = new CreateCandidateInputValidator();
+
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+
             var candidate = new Candidate(input.FirstName, input.LastName, input.Email, input.PhoneNumber,
                                               input.Specialization, input.DateOfGraduation, input.CandidateType,
                                               input.GraduationType, input.Interests, input.ExtraInfo);
@@ -65,6 +81,15 @@ namespace Application.Services
 
         public async Task<Event> UpdateEventAsync(CandidateJourneyDbContext context, Guid eventId, UpdateEventInput input, CancellationToken cancellationToken)
         {
+            var validator = new UpdateEventInputValidator();
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+            
             var @event = await context.Events.FirstOrDefaultAsync(e => e.Id == eventId);
             if (@event == null)
                 throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));

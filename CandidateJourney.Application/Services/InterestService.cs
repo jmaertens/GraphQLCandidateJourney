@@ -6,12 +6,13 @@ using CandidateJourney.Application.Contracts.Commands;
 using Application.InputTypes;
 using HotChocolate;
 using Microsoft.Extensions.Logging;
+using System.Threading;
 
 namespace Application.Services
 {
     public class InterestService : IInterestService
     {
-
+        
         public async Task<IQueryable<Interest>> GetAllInterestsAsync(CandidateJourneyDbContext context)
         {
             var interests = context.Interests.AsQueryable();
@@ -21,17 +22,26 @@ namespace Application.Services
             return interests;
         }
 
-        public async Task<Interest> GetInterestByIdAsync(CandidateJourneyDbContext context, int interestId)
+        public async Task<Interest> GetInterestByIdAsync(CandidateJourneyDbContext context, int interestId, CancellationToken cancellationToken)
         {
-            var interest = await context.Interests.FirstOrDefaultAsync(i => i.Id == interestId);
+            var interest = await context.Interests.FirstOrDefaultAsync(i => i.Id == interestId, cancellationToken);
             if (interest == null)
                 throw new GraphQLException(new Error($"Interest with Id {interestId} not found.", "INTEREST_NOT_FOUND"));
 
             return interest;
         }
 
-        public async Task<Interest> AddInterestAsync(CandidateJourneyDbContext context, CreateInterestInput input)
+        public async Task<Interest> AddInterestAsync(CandidateJourneyDbContext context, CreateInterestInput input, CancellationToken cancellationToken)
         {
+            var validator = new CreateInterestInputValidator();
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+            
             var newInterest = new Interest()
             {
                 Name = input.Name
@@ -42,9 +52,18 @@ namespace Application.Services
             return newInterest;
         }
 
-        public async Task<Interest> UpdateInterestAsync(CandidateJourneyDbContext context, int interestId, UpdateInterestInput input)
+        public async Task<Interest> UpdateInterestAsync(CandidateJourneyDbContext context, int interestId, UpdateInterestInput input, CancellationToken cancellationToken)
         {
-            var interest = await context.Interests.FirstOrDefaultAsync(i => i.Id == interestId);
+            var validator = new UpdateInterestInputValidator();
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+            
+            var interest = await context.Interests.FirstOrDefaultAsync(i => i.Id == interestId, cancellationToken);
             if (interest == null)
                 throw new GraphQLException(new Error($"Interest with Id {interestId} not found.", "INTEREST_NOT_FOUND"));
 
@@ -54,9 +73,9 @@ namespace Application.Services
             return interest;
         }
 
-        public async Task<Interest> DeleteInterestAsync(CandidateJourneyDbContext context, int interestId)
+        public async Task<Interest> DeleteInterestAsync(CandidateJourneyDbContext context, int interestId, CancellationToken cancellationToken)
         {
-            var interest = await context.Interests.FirstOrDefaultAsync(i => i.Id == interestId);
+            var interest = await context.Interests.FirstOrDefaultAsync(i => i.Id == interestId, cancellationToken);
             if (interest == null)
                 throw new GraphQLException(new Error($"Interest with Id {interestId} not found.", "INTEREST_NOT_FOUND"));
             

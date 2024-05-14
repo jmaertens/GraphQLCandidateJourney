@@ -1,4 +1,5 @@
 ﻿using CandidateJourney.Domain;
+using FluentValidation;
 using HotChocolate;
 
 namespace Application.InputTypes
@@ -60,5 +61,32 @@ namespace Application.InputTypes
 
         [GraphQLDescription("Any extra information about the candidate (optional).")]
         public string? ExtraInfo { get; set; }
+    }
+
+
+    public class CreateCandidateInputValidator : AbstractValidator<CreateCandidateInput>
+    {
+        public CreateCandidateInputValidator()
+        {
+            RuleFor(candidate => candidate.FirstName)
+                .NotEmpty().WithMessage("First Name is required");
+
+            RuleFor(candidate => candidate.LastName)
+                .NotEmpty().WithMessage("Last Name is required");
+
+            RuleFor(candidate => candidate.Email)
+                .NotEmpty().WithMessage("Email is required")
+                .EmailAddress().WithMessage("Email must be a valid email address");
+            
+            RuleFor(candidate => candidate.CandidateType)
+                .IsInEnum().WithMessage("Candidate Type must be a valid enum value");
+
+            RuleFor(candidate => candidate.GraduationType)
+                .IsInEnum().WithMessage("Graduation Type must be a valid enum value");
+
+            RuleFor(candidate => candidate.DateOfGraduation)
+                .LessThanOrEqualTo(DateTime.Now).WithMessage("Date of Graduation cannot be in the future")
+                .When(candidate => candidate.DateOfGraduation.HasValue);
+        }
     }
 }

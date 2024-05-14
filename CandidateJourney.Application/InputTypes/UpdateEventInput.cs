@@ -1,4 +1,5 @@
 ﻿using CandidateJourney.Domain;
+using FluentValidation;
 using HotChocolate;
 using System;
 
@@ -43,5 +44,40 @@ namespace Application.InputTypes
 
         [GraphQLDescription("The target audience of the event.")]
         public AudienceCategory TargetAudience { get; set; }
+    }
+
+    public class UpdateEventInputValidator : AbstractValidator<UpdateEventInput>
+    {
+        public UpdateEventInputValidator()
+        {
+            RuleFor(@event => @event.Name)
+                .NotEmpty().WithMessage("Name is required")
+                .MinimumLength(5).WithMessage("Name must be at least 5 characters long")
+                .MaximumLength(100).WithMessage("Name must not exceed 100 characters");
+
+                RuleFor(@event => @event.Description)
+                        .NotEmpty().WithMessage("Description is required")
+                        .MaximumLength(1000).WithMessage("Description must not exceed 1000 characters");
+
+                RuleFor(@event => @event.Organizer)
+                        .NotEmpty().WithMessage("Organizer is required")
+                        .MinimumLength(3).WithMessage("Organizer must be at least 3 characters long")
+                        .MaximumLength(100).WithMessage("Organizer must not exceed 100 characters");
+
+                RuleFor(@event => @event.Location)
+                        .NotEmpty().WithMessage("Location is required")
+                        .MaximumLength(100).WithMessage("Location must not exceed 100 characters");
+            
+                RuleFor(@event => @event.StartDateTime)
+                        .NotEmpty().WithMessage("StartDateTime is required")
+                        .LessThanOrEqualTo(DateTime.Now).WithMessage("StartDateTime cannot be in the future");
+
+                RuleFor(@event => @event.EndDateTime)
+                        .GreaterThanOrEqualTo(@event => @event.StartDateTime).WithMessage("EndDateTime must be greater than or equal to StartDateTime")
+                        .When(@event => @event.EndDateTime.HasValue);
+
+                RuleFor(@event => @event.TargetAudience)
+                        .IsInEnum().WithMessage("TargetAudience must be a valid enum value");
+        }
     }
 }
