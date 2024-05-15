@@ -54,5 +54,15 @@ namespace API.Mutations
         {
             return await eventService.DeleteCandidateByIdAsync(context, eventId, candidateId, cancellationToken);
         }
+
+        [GraphQLDescription("Add a location to an event.")]
+        public async Task<Event> AddLocationToEventAsync(
+            [Service] CandidateJourneyDbContext context,
+            [Service] IEventService eventService,
+            AddLocationToEventInput input,
+            CancellationToken cancellationToken)
+        {
+            return await eventService.AddLocationToEventAsync(context, input, cancellationToken);
+        }
     }
 }

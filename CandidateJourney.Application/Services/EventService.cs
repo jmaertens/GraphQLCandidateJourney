@@ -11,7 +11,7 @@ namespace Application.Services
     {
         public IQueryable<Event> GetEventsByDateRange(CandidateJourneyDbContext context, DateTime? from, DateTime? to)
         {
-            var query = context.Events.AsQueryable();
+            var query = context.Events.Include(e => e.Candidates).Include(e => e.Locations).AsQueryable();
 
             if (from.HasValue)
             {
@@ -28,7 +28,7 @@ namespace Application.Services
 
         public async Task<Event> GetEventByIdAsync(CandidateJourneyDbContext context, Guid eventId, CancellationToken cancellationToken)
         {            
-            var @event = await context.Events.Include(e => e.Candidates).FirstOrDefaultAsync(e => e.Id == eventId && !e.IsDeleted, cancellationToken);
+            var @event = await context.Events.Include(e => e.Candidates).Include(e => e.Locations).FirstOrDefaultAsync(e => e.Id == eventId && !e.IsDeleted, cancellationToken);
             if (@event == null)
                 throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));
 
@@ -144,6 +144,39 @@ namespace Application.Services
                 throw new GraphQLException(new Error($"Candidate with Id {candidateId} not found in event with Id {eventId}.", "CANDIDATE_NOT_FOUND"));
 
             @event.Candidates.Remove(candidate);
+            await context.SaveChangesAsync(cancellationToken);
+            return @event;
+        }
+        
+        public async Task<Event> AddLocationToEventAsync(CandidateJourneyDbContext context, AddLocationToEventInput input, CancellationToken cancellationToken)
+        {
+            var validator = new AddLocationToEventInputValidator();
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+
+            var @event = await context.Events.Include(e => e.Locations).FirstOrDefaultAsync(e => e.Id == input.EventId, cancellationToken);
+            if (@event == null)
+            {
+                throw new GraphQLException(new Error($"Event with Id {input.EventId} not found.", "EVENT_NOT_FOUND"));
+            }
+
+            var location = await context.Locations.FirstOrDefaultAsync(l => l.Id == input.LocationId, cancellationToken);
+            if (location == null)
+            {
+                throw new GraphQLException(new Error($"Location with Id {input.LocationId} not found.", "LOCATION_NOT_FOUND"));
+            }
+
+            if (@event.Locations.Any(l => l.Id == input.LocationId))
+            {
+                throw new GraphQLException(new Error($"Location with Id {input.LocationId} is already added to the event.", "LOCATION_ALREADY_ADDED"));
+            }
+
+            @event.Locations.Add(location);
             await context.SaveChangesAsync(cancellationToken);
             return @event;
         }

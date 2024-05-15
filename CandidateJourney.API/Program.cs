@@ -21,7 +21,8 @@ builder.Services
     .AddGraphQLServer()
     .AddAPITypes()
     .AddFiltering()
-    .AddSorting();
+    .AddSorting()
+    .AddMaxExecutionDepthRule(15);
 
 // Services Rest
 builder.Services.AddControllers()
@@ -62,7 +63,7 @@ builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
 
-/*
+
 app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/index.html")
@@ -73,7 +74,7 @@ app.Use(async (context, next) =>
     {
         await next();
     }
-});*/
+});
 
 // Mapping
 app.MapGraphQL();

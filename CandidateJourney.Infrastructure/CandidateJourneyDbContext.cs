@@ -21,7 +21,6 @@ namespace CandidateJourney.Infrastructure
         public CandidateJourneyDbContext(DbContextOptions<CandidateJourneyDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
-            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
             this.ChangeTracker.LazyLoadingEnabled = false;
         }
 

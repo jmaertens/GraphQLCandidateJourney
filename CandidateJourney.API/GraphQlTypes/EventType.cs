@@ -1,4 +1,5 @@
 ﻿using CandidateJourney.Domain;
+using Location = CandidateJourney.Domain.Location;
 
 namespace CandidateJourney.API.GraphQLTypes
 {
@@ -66,6 +67,10 @@ namespace CandidateJourney.API.GraphQLTypes
             descriptor.Field(e => e.IsDeleted)
                 .Type<NonNullType<BooleanType>>()
                 .Description("Indicates whether the event is deleted");
+
+            descriptor.Field(e => e.Locations)
+                .Type<ListType<NonNullType<ObjectType<Location>>>>()
+                .Description("The locations of the event");
         }
     }
 }
