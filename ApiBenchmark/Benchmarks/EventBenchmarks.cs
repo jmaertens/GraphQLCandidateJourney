@@ -1,12 +1,9 @@
-﻿using System;
+﻿using BenchmarkDotNet.Attributes;
 using System.Net.Http;
 using System.Threading.Tasks;
-using BenchmarkDotNet.Attributes;
 
-public class ApiBenchmark
+public class EventBenchmarks : ApiBenchmarkBase
 {
-    private static readonly HttpClient client = new HttpClient();
-
     private const string RestApiUrl = "https://localhost:65356/index.html/GetAllUpcomingEvents?pageNumber=1";
     private const string GraphQlApiUrl = "https://localhost:65356/graphql";
 

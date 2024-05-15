@@ -26,6 +26,15 @@ public class User
         IsDeleted = false;
     }
 
+    public User(Guid id, string firstName, string lastName, string emailAddress)
+    {
+        Id = id;
+        FirstName = firstName;
+        LastName = lastName;
+        EmailAddress = emailAddress;
+        IsDeleted = false;
+    }
+
     public void UpdatePasswordHash(string passwordHash)
     {
         PasswordHash = passwordHash;

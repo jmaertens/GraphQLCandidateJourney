@@ -12,7 +12,7 @@ public class BenchmarkConfig : ManualConfig
     {
         AddJob(Job.Default.WithWarmupCount(3).WithIterationCount(10));
         AddLogger(ConsoleLogger.Default);
-        
+
         string logDirectory = @"C:\Users\Jonas\Desktop\⠀\Bachelorproef\INA\GraphQl\GraphQLCandidateJourney\ApiBenchmark\Output";
         AddLogger(new FileLogger(logDirectory));
 

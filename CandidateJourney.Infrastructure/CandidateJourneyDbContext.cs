@@ -57,7 +57,7 @@ namespace CandidateJourney.Infrastructure
             var changedEvents = ChangeTracker.Entries<Event>().Where(eventEntry => eventEntry.State == EntityState.Modified);
             var deletedEvents = ChangeTracker.Entries<Event>().Where(eventEntry => eventEntry.State == EntityState.Deleted);
             var deletedUsers = ChangeTracker.Entries<User>().Where(userEntry => userEntry.State == EntityState.Deleted);
-            var id = "347EA3C7-A4AD-4DE6-A7C2-EF73E245E0AC";
+            var id = "149D6235-13E5-4149-BDBC-19F7AB8046A4";
 
             foreach (var addedEvent in addedEvents)
             {

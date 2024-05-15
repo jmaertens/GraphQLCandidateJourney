@@ -1,3 +1,9 @@
 ﻿using BenchmarkDotNet.Running;
 
-var summary = BenchmarkRunner.Run<ApiBenchmark>(new BenchmarkConfig());
+var summaries = new[]
+{
+    //BenchmarkRunner.Run<EventBenchmarks>(),
+    //BenchmarkRunner.Run<UserBenchmarks>(),
+    BenchmarkRunner.Run<InterestBenchmarks>()
+};
+Console.ReadLine();

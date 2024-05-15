@@ -19,57 +19,47 @@ namespace CandidateJourney.Infrastructure
 
         public void Seed()
         {
+            if (!_context.Users.Any())
+            {
+                var testUser = new User(Guid.Parse("149d6235-13e5-4149-bdbc-19f7ab8046a4"), "Test", "User", "test.user@example.com");
+                var users = GenerateFakeUsers(10);
+                _context.Users.Add(testUser);
+                _context.Users.AddRange(users);
+                _context.SaveChanges();
+            }
+            
             if (!_context.Events.Any())
             {
-                var events = GenerateFakeEvents(1000);
+                var users = _context.Users.ToList();
+                var events = GenerateFakeEvents(1000, users);
                 _context.Events.AddRange(events);
                 _context.SaveChanges();
             }
         }
 
-        private List<Event> GenerateFakeEvents(int count)
+        private List<User> GenerateFakeUsers(int count)
+        {
+            var faker = new Faker<User>()
+                .CustomInstantiator(f => new User(
+                    f.Person.FirstName,
+                    f.Person.LastName,
+                    f.Person.Email
+                ));
+
+            return faker.Generate(count);
+        }
+
+        private List<Event> GenerateFakeEvents(int count, List<User> users)
         {
             var faker = new Faker<Event>()
                 .CustomInstantiator(f =>
                 {
-                    var belgianCities = new[]
-                    {
-                        "Antwerp", "Bruges", "Brussels", "Ghent", "Leuven",
-                        "Liège", "Mechelen", "Mons", "Namur", "Ostend"
-                    };
-
-                    var techWords = new[]
-                    {
-                        "AI", "Machine Learning", "Blockchain", "Cybersecurity", "Cloud Computing",
-                        "DevOps", "Big Data", "IoT", "AR/VR", "Quantum Computing", "Data Science",
-                        "Software Engineering", "Network Security", "Digital Transformation",
-                        "Robotics", "5G Technology", "Edge Computing", "Natural Language Processing",
-                        "Augmented Reality", "Virtual Reality", "FinTech", "HealthTech", "Bioinformatics",
-                        "Quantum Cryptography", "Smart Cities", "Green IT", "Autonomous Vehicles",
-                        "Microservices", "API Management", "Serverless Computing", "Wearable Technology",
-                        "Digital Twins", "Smart Home", "Connected Devices", "Blockchain for Supply Chain",
-                        "AI Ethics", "AI Governance", "AI for Social Good", "Tech for Good"
-                    };
-
-                    var eventDescriptors = new[]
-                    {
-                        "Conference", "Summit", "Workshop", "Seminar", "Expo",
-                        "Meetup", "Symposium", "Webinar", "Forum", "Hackathon",
-                        "Bootcamp", "Roundtable", "Panel Discussion", "Lecture", "Presentation",
-                        "Training", "Networking Event", "Showcase", "Convention", "Tech Talk",
-                        "Masterclass", "Q&A Session", "Launch Event", "Demo Day", "Product Reveal",
-                        "Pitch Event", "Innovation Day", "Idea Lab", "Tech Fair", "Tech Symposium",
-                        "Tech Expo", "Incubator Event", "Accelerator Event", "Startup Competition",
-                        "Investor Meeting", "Tech Retreat", "Innovation Summit", "Tech Challenge",
-                        "Code Fest", "App Jam"
-                    };
-
                     var (startDateTime, endDateTime) = GenerateEventTimes(f);
 
                     return new Event(
-                        $"{f.PickRandom(techWords)} {f.PickRandom(eventDescriptors)} {startDateTime.Year}", // Name
+                        $"{f.PickRandom(SeedData.TechWords)} {f.PickRandom(SeedData.EventDescriptors)} {startDateTime.Year}", // Name
                         f.Company.CompanyName(),          // Organizer
-                        f.PickRandom(belgianCities),      // Location
+                        f.PickRandom(SeedData.BelgianCities), // Location
                         startDateTime,                    // StartDateTime
                         endDateTime,                      // EndDateTime
                         f.PickRandom<AudienceCategory>(), // TargetAudience
@@ -77,7 +67,7 @@ namespace CandidateJourney.Infrastructure
                         f.Internet.Url()                  // EventLink
                     );
                 })
-                .RuleFor(e => e.CreatedBy, f => new User(f.Person.FirstName, f.Person.LastName, f.Person.Email))
+                .RuleFor(e => e.CreatedBy, f => f.PickRandom(users))
                 .RuleFor(e => e.CreatedOn, f => f.Date.Past())
                 .RuleFor(e => e.Candidates, f => new List<Candidate>())
                 .RuleFor(e => e.IsDeleted, f => false);
