@@ -5,7 +5,7 @@ namespace CandidateJourney.Application.Contracts.Commands
 {
     public class CreateEventCommand
     {
-        public string? Name { get; set; }
+        public string Name { get; set; }
         public string? Description { get; set; }
         public string? Organizer { get; set; }
         public string? EventLink { get; set; }

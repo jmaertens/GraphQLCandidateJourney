@@ -17,23 +17,7 @@ namespace CandidateJourney.Application.Services
             _mapper = mapper;
             _eventRepository = eventRepository;
         }
-
-        public async Task<EventModel> AddCandidateToEventAsync(Guid eventId, CreateCandidateCommand command)
-        {
-            var @event = await _eventRepository.FindById(eventId);
-            if (@event == null) throw new Exception("Event not found.");
-            string? pictureName = null;
-            var newCandidate = new Candidate(command.FirstName!, command.LastName!,
-                 command.Email!, command.PhoneNumber, command.Specialization,
-                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!,
-                 command.Interests!, command.ExtraInfo);
-
-            @event.AddCandidate(newCandidate);
-
-            await _eventRepository.UpdateEvent(@event);
-            return _mapper.Map<EventModel>(@event);
-        }
-
+        
         public async Task<EventModel> AddEventAsync(CreateEventCommand command)
         {
             var newEvent = new Event(command.Name!, command.Organizer!, command.StartDateTime, command.EndDateTime,
@@ -158,6 +142,22 @@ namespace CandidateJourney.Application.Services
             }
 
             return _mapper.Map<CandidateModel>(candidate);
+        }
+
+        public async Task<EventModel> AddCandidateToEventAsync(Guid eventId, CreateCandidateCommand command)
+        {
+            var @event = await _eventRepository.FindById(eventId);
+            if (@event == null) throw new Exception("Event not found.");
+            string? pictureName = null;
+            var newCandidate = new Candidate(command.FirstName!, command.LastName!,
+                 command.Email!, command.PhoneNumber, command.Specialization,
+                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!,
+                 command.Interests!, command.ExtraInfo);
+
+            @event.AddCandidate(newCandidate);
+
+            await _eventRepository.UpdateEvent(@event);
+            return _mapper.Map<EventModel>(@event);
         }
 
         public async Task<EventModel> RemoveCandidateByIdAsync(Guid eventId, Guid candidateId)

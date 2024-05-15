@@ -1,6 +1,5 @@
 ﻿using CandidateJourney.Domain;
 using FluentValidation;
-using System;
 
 namespace CandidateJourney.Application.Contracts.Commands
 {

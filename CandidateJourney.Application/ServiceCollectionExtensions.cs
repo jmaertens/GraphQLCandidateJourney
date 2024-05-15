@@ -13,6 +13,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IRestUserService, RestUserService>();
         services.AddScoped<IRestEventService, RestEventService>();
         services.AddScoped<IRestInterestService, RestInterestService>();
+        services.AddScoped<IRestLocationService, RestLocationService>();
 
         services.AddAutoMapper(Assembly.GetAssembly(typeof(ServiceCollectionExtensions)));
 
