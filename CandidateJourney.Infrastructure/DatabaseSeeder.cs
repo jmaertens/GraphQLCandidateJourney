@@ -59,7 +59,7 @@ namespace CandidateJourney.Infrastructure
                     return new Event(
                         $"{f.PickRandom(SeedData.TechWords)} {f.PickRandom(SeedData.EventDescriptors)} {startDateTime.Year}", // Name
                         f.Company.CompanyName(),          // Organizer
-                        f.PickRandom(SeedData.BelgianCities), // Location
+                        //f.PickRandom(SeedData.BelgianCities), // Location
                         startDateTime,                    // StartDateTime
                         endDateTime,                      // EndDateTime
                         f.PickRandom<AudienceCategory>(), // TargetAudience

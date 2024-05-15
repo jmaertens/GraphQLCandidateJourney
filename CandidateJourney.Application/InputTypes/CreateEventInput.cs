@@ -12,7 +12,6 @@ namespace Application.InputTypes
             string name,
             string description,
             string organizer,
-            string location,
             string eventLink,
             DateTime startDateTime,
             AudienceCategory targetAudience,
@@ -21,7 +20,6 @@ namespace Application.InputTypes
             Name = name;
             Description = description;
             Organizer = organizer;
-            Location = location;
             EventLink = eventLink;
             StartDateTime = startDateTime;
             TargetAudience = targetAudience;
@@ -36,10 +34,7 @@ namespace Application.InputTypes
 
         [GraphQLDescription("The organizer of the event.")]
         public string Organizer { get; set; }
-
-        [GraphQLDescription("The location of the event.")]
-        public string Location { get; set; }
-
+        
         [GraphQLDescription("The link to the event.")]
         public string EventLink { get; set; }
 
@@ -58,7 +53,6 @@ namespace Application.InputTypes
         public CreateEventInputValidator()
         {
             RuleFor(newEvent => newEvent.Name).NotEmpty().WithMessage("Name is required");
-            RuleFor(newEvent => newEvent.Location).NotEmpty().WithMessage("Location is required");
             RuleFor(newEvent => newEvent.Organizer).NotEmpty().WithMessage("Organizer is required");
             RuleFor(newEvent => newEvent.TargetAudience).IsInEnum().WithMessage("TargetAudience must be a valid enum value");
             RuleFor(newEvent => newEvent).Must(newEvent => newEvent.EndDateTime >= newEvent.StartDateTime || newEvent.EndDateTime == null)

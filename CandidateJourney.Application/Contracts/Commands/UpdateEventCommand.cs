@@ -10,7 +10,6 @@ namespace CandidateJourney.Application.Contracts.Commands
             string name,
             string description,
             string organizer,
-            string location,
             DateTime startDateTime,
             AudienceCategory targetAudience,
             string? eventLink = null,
@@ -19,7 +18,6 @@ namespace CandidateJourney.Application.Contracts.Commands
             Name = name;
             Description = description;
             Organizer = organizer;
-            Location = location;
             StartDateTime = startDateTime;
             EndDateTime = endDateTime;
             TargetAudience = targetAudience;
@@ -29,7 +27,6 @@ namespace CandidateJourney.Application.Contracts.Commands
         public string Name { get; set; }
         public string Description { get; set; }
         public string Organizer { get; set; }
-        public string Location { get; set; }
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
@@ -41,7 +38,6 @@ namespace CandidateJourney.Application.Contracts.Commands
         public UpdateEventCommandValidator()
         {
             RuleFor(newEvent => newEvent.Name).NotEmpty().WithMessage("Name is required");
-            RuleFor(newEvent => newEvent.Location).NotEmpty().WithMessage("Location is required");
             RuleFor(newEvent => newEvent.Organizer).NotEmpty().WithMessage("Organizer is required");
             RuleFor(newEvent => newEvent.TargetAudience).NotEmpty().WithMessage("TargetAudience is required");
             RuleFor(newEvent => newEvent.TargetAudience).IsInEnum();

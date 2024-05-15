@@ -36,7 +36,7 @@ namespace CandidateJourney.Application.Services
 
         public async Task<EventModel> AddEventAsync(CreateEventCommand command)
         {
-            var newEvent = new Event(command.Name!, command.Organizer!, command.Location!, command.StartDateTime, command.EndDateTime,
+            var newEvent = new Event(command.Name!, command.Organizer!, command.StartDateTime, command.EndDateTime,
                 command.TargetAudience, command.Description, command.EventLink);
             await _eventRepository.Add(newEvent);
             return _mapper.Map<EventModel>(newEvent);
@@ -96,7 +96,6 @@ namespace CandidateJourney.Application.Services
             @event.Name = command.Name;
             @event.Description = command.Description;
             @event.Organizer = command.Organizer;
-            @event.Location = command.Location;
             @event.EventLink = command.EventLink;
             @event.StartDateTime = command.StartDateTime;
             @event.EndDateTime = command.EndDateTime;

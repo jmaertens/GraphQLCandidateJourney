@@ -46,7 +46,7 @@ namespace Application.Services
                 throw new GraphQLException(errors);
             }
 
-            var newEvent = new Event(input.Name, input.Organizer, input.Location, input.StartDateTime, input.EndDateTime,
+            var newEvent = new Event(input.Name, input.Organizer, input.StartDateTime, input.EndDateTime,
                 input.TargetAudience, input.Description, input.EventLink);
 
             context.Events.Add(newEvent);
@@ -97,7 +97,6 @@ namespace Application.Services
             @event.Name = input.Name;
             @event.Description = input.Description;
             @event.Organizer = input.Organizer;
-            @event.Location = input.Location;
             @event.EventLink = input.EventLink;
             @event.StartDateTime = input.StartDateTime;
             @event.EndDateTime = input.EndDateTime;

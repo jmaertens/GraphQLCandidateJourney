@@ -26,11 +26,7 @@ namespace CandidateJourney.API.GraphQLTypes
             descriptor.Field(e => e.Organizer)
                 .Type<NonNullType<StringType>>()
                 .Description("The organizer of the event");
-
-            descriptor.Field(e => e.Location)
-                .Type<NonNullType<StringType>>()
-                .Description("The location of the event");
-
+        
             descriptor.Field(e => e.EventLink)
                 .Type<StringType>()
                 .Description("The link to the event");

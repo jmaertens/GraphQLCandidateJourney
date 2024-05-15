@@ -9,12 +9,11 @@ namespace Application.InputTypes
     [GraphQLDescription("Input type for updating an existing event.")]
     public class UpdateEventInput
     {
-        public UpdateEventInput(string name, string description, string organizer, string location, string eventLink, DateTime startDateTime, AudienceCategory targetAudience, DateTime? endDateTime = null)
+        public UpdateEventInput(string name, string description, string organizer, string eventLink, DateTime startDateTime, AudienceCategory targetAudience, DateTime? endDateTime = null)
         {
             Name = name;
             Description = description;
             Organizer = organizer;
-            Location = location;
             EventLink = eventLink;
             StartDateTime = startDateTime;
             TargetAudience = targetAudience;
@@ -29,9 +28,6 @@ namespace Application.InputTypes
 
         [GraphQLDescription("The organizer of the event.")]
         public string Organizer { get; set; }
-
-        [GraphQLDescription("The location of the event.")]
-        public string Location { get; set; }
 
         [GraphQLDescription("The link to the event.")]
         public string EventLink { get; set; }
@@ -63,10 +59,6 @@ namespace Application.InputTypes
                         .NotEmpty().WithMessage("Organizer is required")
                         .MinimumLength(3).WithMessage("Organizer must be at least 3 characters long")
                         .MaximumLength(100).WithMessage("Organizer must not exceed 100 characters");
-
-                RuleFor(@event => @event.Location)
-                        .NotEmpty().WithMessage("Location is required")
-                        .MaximumLength(100).WithMessage("Location must not exceed 100 characters");
             
                 RuleFor(@event => @event.StartDateTime)
                         .NotEmpty().WithMessage("StartDateTime is required")

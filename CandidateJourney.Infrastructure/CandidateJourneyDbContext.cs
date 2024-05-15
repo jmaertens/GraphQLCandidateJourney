@@ -14,6 +14,7 @@ namespace CandidateJourney.Infrastructure
 
         public DbSet<User> Users { get; set; }
         public DbSet<Event> Events { get; set; }
+        public DbSet<Location> Locations { get; set; }
         public DbSet<Interest> Interests { get; set; }
         public DbSet<ContactHistory> ContactHistories { get; set; }
 
@@ -25,7 +26,7 @@ namespace CandidateJourney.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CandidateJourneyDbContext).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CandidateJourneyDbContext).Assembly); 
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

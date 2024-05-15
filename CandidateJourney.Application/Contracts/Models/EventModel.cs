@@ -8,7 +8,6 @@ namespace CandidateJourney.Application.Contracts.Models
             Guid id,
             string name,
             string organizer,
-            string location,
             DateTime startDateTime,
             AudienceCategory targetAudience,
             UserExportModel createdBy,
@@ -24,7 +23,6 @@ namespace CandidateJourney.Application.Contracts.Models
             Id = id;
             Name = name;
             Organizer = organizer;
-            Location = location;
             StartDateTime = startDateTime;
             TargetAudience = targetAudience;
             CreatedBy = createdBy;
@@ -42,7 +40,6 @@ namespace CandidateJourney.Application.Contracts.Models
         public string Name { get; set; }
         public string? Description { get; set; }
         public string Organizer { get; set; }
-        public string Location { get; set; }
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }

@@ -11,7 +11,6 @@ namespace CandidateJourney.Infrastructure.EntityTypeConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Name).IsRequired();
             builder.Property(x => x.Organizer).IsRequired();
-            builder.Property(x => x.Location).IsRequired();
             builder.Property(x => x.EventLink).IsRequired(false);
             builder.Property(x => x.Description).IsRequired(false);
             builder.Property(x => x.StartDateTime).IsRequired();
@@ -24,6 +23,14 @@ namespace CandidateJourney.Infrastructure.EntityTypeConfigurations
             builder.HasOne(x => x.UpdatedBy).WithMany().HasForeignKey("UpdatedById").IsRequired(false);
 
             builder.HasQueryFilter(x => x.IsDeleted == false);
+
+            builder.HasMany(e => e.Locations)
+                   .WithMany(l => l.Events)
+                   .UsingEntity<Dictionary<string, object>>(
+                        "EventLocation",
+                        j => j.HasOne<Location>().WithMany().HasForeignKey("LocationId"),
+                        j => j.HasOne<Event>().WithMany().HasForeignKey("EventId")
+                   );
         }
     }
 }

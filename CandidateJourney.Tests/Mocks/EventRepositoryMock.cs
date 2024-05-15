@@ -8,8 +8,8 @@ public static class EventRepositoryMock
 {
     public static List<Event> Events { get; set; } = new List<Event>
     {
-        new Event("name", "organizer", "location", DateTime.Now, DateTime.Now.AddDays(5), AudienceCategory.Student, "description", "https://ordina.be"),
-        new Event("event2", "organizer2", "location2", DateTime.Now, DateTime.Now.AddDays(10), AudienceCategory.All, "description2", "https://ordina.be")
+        new Event("name", "organizer", DateTime.Now, DateTime.Now.AddDays(5), AudienceCategory.Student, "description", "https://ordina.be"),
+        new Event("event2", "organizer2", DateTime.Now, DateTime.Now.AddDays(10), AudienceCategory.All, "description2", "https://ordina.be")
     };
 
     public static List<Candidate> Candidates { get; set; } = new List<Candidate>

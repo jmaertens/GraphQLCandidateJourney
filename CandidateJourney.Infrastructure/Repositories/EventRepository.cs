@@ -40,8 +40,7 @@ namespace CandidateJourney.Infrastructure.Repositories
             return _context.Events
                 .Where(e => e.StartDateTime < now)
                 .Where(e => e.Name.ToLower().Contains(filterstring)
-                || e.Organizer.ToLower().Contains(filterstring)
-                || e.Location.ToLower().Contains(filterstring))
+                || e.Organizer.ToLower().Contains(filterstring))
                 .OrderByDescending(e => e.StartDateTime)
                 .Skip((pageNumber - 1) * 6)
                 .Take(6)
@@ -54,8 +53,7 @@ namespace CandidateJourney.Infrastructure.Repositories
             return _context.Events
                 .Where(e => e.StartDateTime > now)
                 .Where(e => e.Name.ToLower().Contains(filterstring)
-                || e.Organizer.ToLower().Contains(filterstring)
-                || e.Location.ToLower().Contains(filterstring))
+                || e.Organizer.ToLower().Contains(filterstring))
                 .OrderByDescending(e => e.StartDateTime)
                 .Skip((pageNumber - 1) * 6)
                 .Take(6)

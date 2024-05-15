@@ -6,7 +6,6 @@
         public string Name { get; set; }
         public string? Description { get; set; }
         public string Organizer { get; set; }
-        public string Location { get; set; }
         public string? EventLink { get; set; }
         public DateTime StartDateTime { get; set; }
         public DateTime? EndDateTime { get; set; }
@@ -18,13 +17,15 @@
         public DateTime? UpdatedOn { get; set; }
         public bool IsDeleted { get; set; }
 
+        public List<Location> Locations { get; set; }
+
         public void AddCandidate(Candidate candidate)
         {
             if (Candidates == null)
             {
                 Candidates = new List<Candidate>();
             }
-            if(Candidates.Where(x => x.Email == candidate.Email).Any())
+            if (Candidates.Where(x => x.Email == candidate.Email).Any())
             {
                 throw new Exception("A candidate with this email already exists!");
             }
@@ -34,21 +35,24 @@
             }
         }
 
-        private Event() { }
+        private Event()
+        {
+            Locations = new List<Location>();
+        }
 
-        public Event(string name, string organizer, string location, DateTime startDateTime, DateTime? endDateTime, 
+        public Event(string name, string organizer, DateTime startDateTime, DateTime? endDateTime, 
             AudienceCategory targetAudienceType, string? description, string? eventLink)
         {
             Id = Guid.NewGuid();
             Name = name;
             Organizer = organizer;
-            Location = location;
             StartDateTime = startDateTime;
             EndDateTime = endDateTime;
             TargetAudience = targetAudienceType;
             Description = description;
             EventLink = eventLink;
             IsDeleted = false;
+            Locations = new List<Location>();
         }
     }
 }
