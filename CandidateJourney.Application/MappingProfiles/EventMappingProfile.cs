@@ -1,11 +1,6 @@
 ﻿using AutoMapper;
 using CandidateJourney.Application.Contracts.Models;
 using CandidateJourney.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CandidateJourney.Application.MappingProfiles
 {
@@ -13,7 +8,9 @@ namespace CandidateJourney.Application.MappingProfiles
     {
         public EventMappingProfile()
         {
-            CreateMap<Event, EventModel>();
+            CreateMap<Event, EventModel>()
+                .ForMember(dest => dest.Locations, opt => opt.MapFrom(src => src.Locations))
+                .PreserveReferences();
         }
     }
 }

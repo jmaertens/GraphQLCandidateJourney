@@ -1,5 +1,9 @@
 ﻿using CandidateJourney.Domain;
 using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace CandidateJourney.Infrastructure.Repositories
 {
@@ -16,6 +20,7 @@ namespace CandidateJourney.Infrastructure.Repositories
         {
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
+                .Include(e => e.Locations)
                 .Where(e => e.StartDateTime > now)
                 .OrderBy(e => e.StartDateTime)
                 .Skip((pageNumber - 1) * 6)
@@ -27,6 +32,7 @@ namespace CandidateJourney.Infrastructure.Repositories
         {
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
+                .Include(e => e.Locations)
                 .Where(e => e.StartDateTime < now)
                 .OrderByDescending(e => e.StartDateTime)
                 .Skip((pageNumber - 1) * 6)
@@ -38,6 +44,7 @@ namespace CandidateJourney.Infrastructure.Repositories
         {
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
+                .Include(e => e.Locations)
                 .Where(e => e.StartDateTime < now)
                 .Where(e => e.Name.ToLower().Contains(filterstring)
                 || e.Organizer.ToLower().Contains(filterstring))
@@ -51,6 +58,7 @@ namespace CandidateJourney.Infrastructure.Repositories
         {
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
+                .Include(e => e.Locations)
                 .Where(e => e.StartDateTime > now)
                 .Where(e => e.Name.ToLower().Contains(filterstring)
                 || e.Organizer.ToLower().Contains(filterstring))
@@ -60,10 +68,15 @@ namespace CandidateJourney.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public Task<Event> FindById(Guid id) => _context.Events.Include(e => e.Candidates).ThenInclude(x => x.ContactHistories)
-            .Include(e => e.Candidates).ThenInclude(c => c.ContactHistories).ThenInclude(ch => ch.CreatedBy).IgnoreQueryFilters()
-            .Include(e => e.CreatedBy).IgnoreQueryFilters()
-            .Include(e => e.UpdatedBy).IgnoreQueryFilters()
+        public Task<Event> FindById(Guid id) => _context.Events
+            .Include(e => e.Candidates)
+            .ThenInclude(x => x.ContactHistories)
+            .Include(e => e.Candidates)
+            .ThenInclude(c => c.ContactHistories)
+            .ThenInclude(ch => ch.CreatedBy)
+            .Include(e => e.CreatedBy)
+            .Include(e => e.UpdatedBy)
+            .Include(e => e.Locations)
             .SingleOrDefaultAsync(e => e.Id == id);
 
         public Task Add(Event e)
@@ -82,6 +95,5 @@ namespace CandidateJourney.Infrastructure.Repositories
             _context.Events.Remove(eventToArchive);
             return _context.SaveChangesAsync();
         }
-
     }
 }

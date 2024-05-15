@@ -17,6 +17,7 @@ namespace CandidateJourney.Application.Contracts.Models
             string? eventLink = null,
             DateTime? endDateTime = null,
             List<CandidateModel>? candidates = null,
+            List<LocationModel>? locations = null,
             UserExportModel? updatedBy = null,
             DateTime? updatedOn = null)
         {
@@ -32,6 +33,7 @@ namespace CandidateJourney.Application.Contracts.Models
             EventLink = eventLink;
             EndDateTime = endDateTime;
             Candidates = candidates ?? new List<CandidateModel>();
+            Locations = locations ?? new List<LocationModel>();
             UpdatedBy = updatedBy;
             UpdatedOn = updatedOn;
         }
@@ -45,6 +47,7 @@ namespace CandidateJourney.Application.Contracts.Models
         public DateTime? EndDateTime { get; set; }
         public AudienceCategory TargetAudience { get; set; }
         public List<CandidateModel> Candidates { get; set; }
+        public List<LocationModel> Locations { get; set; }
         public UserExportModel CreatedBy { get; set; }
         public DateTime CreatedOn { get; set; }
         public UserExportModel? UpdatedBy { get; set; }

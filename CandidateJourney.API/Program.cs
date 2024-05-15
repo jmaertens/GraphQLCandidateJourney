@@ -52,6 +52,7 @@ builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
 
+/*
 app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/index.html")
@@ -62,7 +63,7 @@ app.Use(async (context, next) =>
     {
         await next();
     }
-});
+});*/
 
 // Mapping
 app.MapGraphQL();

@@ -167,5 +167,19 @@ namespace CandidateJourney.API.Controllers
                 return NotFound();
             }
         }
+
+        [Route("{eventId}/locations")]
+        [HttpPost]
+        [SwaggerOperation(Summary = "Adds a location to an event", Description = "Adds a location to an event")]
+        [SwaggerResponse(201, "Created")]
+        [SwaggerResponse(400, "Bad Request")]
+        public async Task<ActionResult> AddLocationToEvent(Guid eventId, [FromBody] AddLocationToEventCommand command)
+        {
+            var validator = new AddLocationToEventCommandValidator();
+            await validator.ValidateAndThrowAsync(command);
+
+            var updatedEvent = await _eventService.AddLocationToEventAsync(eventId, command.LocationId);
+            return CreatedAtAction(nameof(AddLocationToEvent), new { id = updatedEvent.Id }, updatedEvent);
+        }
     }
 }

@@ -11,11 +11,13 @@ namespace CandidateJourney.Application.Services
     {
         private readonly IMapper _mapper;
         private readonly IEventRepository _eventRepository;
+        private readonly ILocationRepository _locationRepository;
 
-        public RestEventService(IMapper mapper, IEventRepository eventRepository)
+        public RestEventService(IMapper mapper, IEventRepository eventRepository, ILocationRepository locationRepository)
         {
             _mapper = mapper;
             _eventRepository = eventRepository;
+            _locationRepository = locationRepository;
         }
         
         public async Task<EventModel> AddEventAsync(CreateEventCommand command)
@@ -202,6 +204,20 @@ namespace CandidateJourney.Application.Services
             events.ForEach(e => e.StartDateTime = e.StartDateTime.ToLocalTime());
             events.ForEach(e => e.EndDateTime = e.EndDateTime?.ToLocalTime());
             return events;
+        }
+
+        public async Task<EventModel> AddLocationToEventAsync(Guid eventId, Guid locationId)
+        {
+            var @event = await _eventRepository.FindById(eventId);
+            if (@event == null) throw new Exception("Event not found.");
+
+            var location = await _locationRepository.FindById(locationId);
+            if (location == null) throw new Exception("Location not found.");
+
+            @event.Locations.Add(location);
+
+            await _eventRepository.UpdateEvent(@event);
+            return _mapper.Map<EventModel>(@event);
         }
     }
 }
