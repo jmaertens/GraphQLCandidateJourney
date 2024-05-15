@@ -8,9 +8,7 @@ namespace CandidateJourney.Application.MappingProfiles
     {
         public LocationMappingProfile()
         {
-            CreateMap<Location, LocationModel>()
-                .ForMember(dest => dest.Events, opt => opt.MapFrom(src => src.Events))
-                .PreserveReferences();
+            CreateMap<Location, LocationModel>();
         }
     }
 }

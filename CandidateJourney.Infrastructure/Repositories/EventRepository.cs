@@ -1,5 +1,6 @@
 ﻿using CandidateJourney.Domain;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,17 +69,20 @@ namespace CandidateJourney.Infrastructure.Repositories
                 .ToListAsync();
         }
 
-        public Task<Event> FindById(Guid id) => _context.Events
-            .Include(e => e.Candidates)
-            .ThenInclude(x => x.ContactHistories)
-            .Include(e => e.Candidates)
-            .ThenInclude(c => c.ContactHistories)
-            .ThenInclude(ch => ch.CreatedBy)
-            .Include(e => e.CreatedBy)
-            .Include(e => e.UpdatedBy)
-            .Include(e => e.Locations)
-            .SingleOrDefaultAsync(e => e.Id == id);
+        public Task<Event> FindById(Guid id) 
+        {
+            var @event = _context.Events
+                .Include(e => e.Candidates)
+                .Include(e => e.CreatedBy)
+                .Include(e => e.UpdatedBy)
+                .Include(e => e.Locations)
+                .SingleOrDefaultAsync(e => e.Id == id);
+            
+            if (@event == null) throw new Exception("No events found.");
 
+            return @event;
+        }
+              
         public Task Add(Event e)
         {
             _context.Events.Add(e);

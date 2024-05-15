@@ -9,8 +9,9 @@ namespace CandidateJourney.Application.MappingProfiles
         public EventMappingProfile()
         {
             CreateMap<Event, EventModel>()
-                .ForMember(dest => dest.Locations, opt => opt.MapFrom(src => src.Locations))
-                .PreserveReferences();
+                .ForMember(dest => dest.Locations, opt => opt.MapFrom(src => src.Locations.Select(l => new LocationModel(
+                    l.Id, l.Name, l.Address
+                )).ToList()));
         }
     }
 }

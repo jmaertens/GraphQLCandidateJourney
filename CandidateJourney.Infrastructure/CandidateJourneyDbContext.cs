@@ -21,12 +21,14 @@ namespace CandidateJourney.Infrastructure
         public CandidateJourneyDbContext(DbContextOptions<CandidateJourneyDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
         {
             _httpContextAccessor = httpContextAccessor;
+            this.ChangeTracker.QueryTrackingBehavior = QueryTrackingBehavior.NoTracking;
+            this.ChangeTracker.LazyLoadingEnabled = false;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CandidateJourneyDbContext).Assembly); 
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(CandidateJourneyDbContext).Assembly);
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)

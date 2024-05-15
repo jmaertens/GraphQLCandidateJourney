@@ -61,6 +61,8 @@ namespace CandidateJourney.Application.Services
         public async Task<EventModel> GetEventByIdAsync(Guid id)
         {
             var foundEvent = await _eventRepository.FindById(id);
+            if (foundEvent == null) throw new Exception("Event not found.");
+
             foundEvent.StartDateTime = foundEvent.StartDateTime.ToLocalTime();
             foundEvent.EndDateTime = foundEvent.EndDateTime?.ToLocalTime();
             foundEvent.CreatedOn = foundEvent.CreatedOn.ToLocalTime();
