@@ -8,9 +8,16 @@ public class FileLogger : ILogger
 
     public FileLogger(string directory)
     {
-        Directory.CreateDirectory(directory);
-        filePath = Path.Combine(directory, $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log");
-        Console.WriteLine($"Logging to: {filePath}");
+        try
+        {
+            Directory.CreateDirectory(directory);
+            filePath = Path.Combine(directory, $"{DateTime.Now:yyyy-MM-dd_HH-mm-ss}.log");
+            Console.WriteLine($"Logging to: {filePath}");
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error initializing FileLogger: {ex.Message}");
+        }
     }
 
     public string Id => nameof(FileLogger);

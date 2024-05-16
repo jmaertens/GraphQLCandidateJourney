@@ -63,7 +63,6 @@ builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
 
-
 app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/index.html")

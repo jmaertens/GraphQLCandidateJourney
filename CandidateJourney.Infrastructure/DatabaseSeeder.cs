@@ -27,11 +27,21 @@ namespace CandidateJourney.Infrastructure
                 _context.Users.AddRange(users);
                 _context.SaveChanges();
             }
-            
+
+            if (!_context.Locations.Any())
+            {
+                var location1 = new Location { Id = Guid.NewGuid(), Name = "Location 1", Address = "Address 1" };
+                var location2 = new Location { Id = Guid.NewGuid(), Name = "Location 2", Address = "Address 2" };
+                _context.Locations.Add(location1);
+                _context.Locations.Add(location2);
+                _context.SaveChanges();
+            }
+
             if (!_context.Events.Any())
             {
                 var users = _context.Users.ToList();
-                var events = GenerateFakeEvents(1000, users);
+                var locations = _context.Locations.ToList();
+                var events = GenerateFakeEvents(2000, users, locations);
                 _context.Events.AddRange(events);
                 _context.SaveChanges();
             }
@@ -49,7 +59,7 @@ namespace CandidateJourney.Infrastructure
             return faker.Generate(count);
         }
 
-        private List<Event> GenerateFakeEvents(int count, List<User> users)
+        private List<Event> GenerateFakeEvents(int count, List<User> users, List<Location> locations)
         {
             var faker = new Faker<Event>()
                 .CustomInstantiator(f =>
@@ -65,7 +75,10 @@ namespace CandidateJourney.Infrastructure
                         f.PickRandom<AudienceCategory>(), // TargetAudience
                         f.Lorem.Paragraph(2),             // Description
                         f.Internet.Url()                  // EventLink
-                    );
+                    )
+                    {
+                        Locations = new List<Location> { f.PickRandom(locations) }
+                    }; ;
                 })
                 .RuleFor(e => e.CreatedBy, f => f.PickRandom(users))
                 .RuleFor(e => e.CreatedOn, f => f.Date.Past())

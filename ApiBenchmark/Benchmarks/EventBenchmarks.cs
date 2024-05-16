@@ -7,12 +7,12 @@ public class EventBenchmarks : ApiBenchmarkBase
     private const string RestApiUrl = "https://localhost:65356/index.html/GetAllUpcomingEvents?pageNumber=1";
     private const string GraphQlApiUrl = "https://localhost:65356/graphql";
 
-    [Benchmark]
+    /*[Benchmark]
     public async Task TestRestApi()
     {
         var response = await client.GetAsync(RestApiUrl);
         response.EnsureSuccessStatusCode();
-    }
+    }*/
 
     [Benchmark]
     public async Task TestGraphQlApi()
@@ -21,12 +21,16 @@ public class EventBenchmarks : ApiBenchmarkBase
         {
             query = @"
             {
-                events(from: ""2023-01-01T00:00:00Z"", to: ""2029-12-31T23:59:59Z"") {
-                    edges {
-                        node {
-                            id
-                            name
-                        }
+                events{
+                    nodes{
+                      id,
+                      name,
+                      description,
+                      location{
+                        id,
+                        name,
+                        address
+                      }
                     }
                 }
             }"
