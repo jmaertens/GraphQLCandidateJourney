@@ -11,7 +11,7 @@ namespace CandidateJourney.API.Queries
         [UsePaging(IncludeTotalCount = true, DefaultPageSize = 10)]
         [UseFiltering]
         [UseSorting]
-        public IQueryable<Location> GetAllLocations(
+        public IQueryable<Location> GetLocations(
             [Service] ILocationService locationService,
             [Service] CandidateJourneyDbContext context)
         {

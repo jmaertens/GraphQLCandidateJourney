@@ -108,30 +108,20 @@ namespace CandidateJourney.Application.Services
 
             var builder = new StringBuilder();
             builder.AppendLine("First name; Last name; Email; Phone number; Specialization; " +
-                    "Date of graduation; Type of graduation; Is looking for; Interests; Extra info");
+                    "Date of graduation; Type of graduation; Is looking for; Extra info");
             foreach (var can in candidates)
             {
-                var interestBuilder = new StringBuilder();
-                if (can.Interests != null)
-                {
-                    can.Interests.ForEach(e =>
-                    {
-                        interestBuilder.Append($"{e.ToString()},");
-                    });
-                    interestBuilder.Remove(interestBuilder.Length - 1, 1);
-                }
-                
                 var dateOfGraduation = can.DateOfGraduation.HasValue ? can.DateOfGraduation.Value.ToString("M/yyyy") : string.Empty;
 
                 if (can.DateOfGraduation.HasValue)
                 {
                     builder.AppendLine($"{can.FirstName};{can.LastName};{can.Email};{can.PhoneNumber};" +
-                                       $"{can.Specialization};{can.GraduationType};{dateOfGraduation};{can.CandidateType};{interestBuilder}; {can.ExtraInfo}");
+                                       $"{can.Specialization};{can.GraduationType};{dateOfGraduation};{can.CandidateType}; {can.ExtraInfo}");
                 }
                 else
                 {
                     builder.AppendLine($"{can.FirstName};{can.LastName};{can.Email};{can.PhoneNumber};" +
-                                       $"{can.Specialization};{can.GraduationType};{can.CandidateType};{interestBuilder};{can.ExtraInfo}");
+                                       $"{can.Specialization};{can.GraduationType};{can.CandidateType};{can.ExtraInfo}");
                 }
             }
             return builder.ToString();
@@ -161,8 +151,7 @@ namespace CandidateJourney.Application.Services
             string? pictureName = null;
             var newCandidate = new Candidate(command.FirstName!, command.LastName!,
                  command.Email!, command.PhoneNumber, command.Specialization,
-                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!,
-                 command.Interests!, command.ExtraInfo);
+                 command.DateOfGraduation, command.CandidateType!, command.AcademicDegree!, command.ExtraInfo);
 
             @event.AddCandidate(newCandidate);
 
@@ -188,21 +177,6 @@ namespace CandidateJourney.Application.Services
                 throw new Exception("Candidate not found.");
             }
 
-            await _eventRepository.UpdateEvent(@event);
-            return _mapper.Map<EventModel>(@event);
-        }
-
-        public async Task<EventModel> AddContactHistoryToCandidateInEvent(CreateContactHistoryCommand command)
-        {
-            Event @event = await _eventRepository.FindById(command.EventId);
-            if (@event == null) throw new Exception("Event not found");
-            foreach (var id in command.CandidateId)
-            {
-                var contactHistory = new ContactHistory();
-                var candidate = @event.Candidates.SingleOrDefault(candidate => candidate.Id == id);
-                if (candidate == null) throw new Exception("Candidate not found");
-                candidate.AddContactHistory(contactHistory);
-            }
             await _eventRepository.UpdateEvent(@event);
             return _mapper.Map<EventModel>(@event);
         }

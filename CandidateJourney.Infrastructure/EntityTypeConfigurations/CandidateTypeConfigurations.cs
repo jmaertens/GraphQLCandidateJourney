@@ -21,16 +21,6 @@ namespace CandidateJourney.Infrastructure.EntityTypeConfigurations
             builder.Property(candidate => candidate.GraduationType).IsRequired();
             builder.Property(candidate => candidate.PictureName).IsRequired(false);
             builder.Property(candidate => candidate.ExtraInfo).IsRequired(false);
-
-            builder.HasMany(candidate => candidate.ContactHistories).WithOne().IsRequired(false);
-
-            builder.Property(candidate => candidate.Interests).HasConversion(v => string.Join(';', v),
-                v => v.Split(';', StringSplitOptions.RemoveEmptyEntries).ToList(),
-                new ValueComparer<List<string>>(
-                    (c1, c2) => c1.SequenceEqual(c2),
-                    c => c.Aggregate(0, (a, v) => HashCode.Combine(a, v.GetHashCode())),
-                    c => c.ToList())
- );
         }
     }
 }

@@ -30,17 +30,9 @@ namespace CandidateJourney.Application.Services
             return _mapper.Map<LocationModel>(newLocation);
         }
 
-        public async Task<List<LocationModel>> GetAllLocationsAsync(int pageNumber, string? filterString)
+        public async Task<List<LocationModel>> GetAllLocationsAsync(int pageNumber)
         {
-            List<Location> locations;
-            if (string.IsNullOrEmpty(filterString))
-            {
-                locations = await _locationRepository.GetAll(pageNumber);
-            }
-            else
-            {
-                locations = await _locationRepository.FilterAll(pageNumber, filterString);
-            }
+            var locations = await _locationRepository.GetAll(pageNumber);
             return _mapper.Map<List<LocationModel>>(locations);
         }
 

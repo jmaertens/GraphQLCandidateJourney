@@ -14,7 +14,6 @@ namespace Application.InputTypes
             string email,
             CandidateIntent candidateType,
             AcademicDegree graduationType,
-            List<string> interests,
             string? phoneNumber = null,
             string? specialization = null,
             DateTime? dateOfGraduation = null,
@@ -25,7 +24,6 @@ namespace Application.InputTypes
             Email = email;
             CandidateType = candidateType;
             GraduationType = graduationType;
-            Interests = interests ?? new List<string>();
             PhoneNumber = phoneNumber;
             Specialization = specialization;
             DateOfGraduation = dateOfGraduation;
@@ -55,10 +53,7 @@ namespace Application.InputTypes
 
         [GraphQLDescription("The academic degree of the candidate.")]
         public AcademicDegree GraduationType { get; set; }
-
-        [GraphQLDescription("The interests of the candidate.")]
-        public List<string> Interests { get; set; }
-
+        
         [GraphQLDescription("Any extra information about the candidate (optional).")]
         public string? ExtraInfo { get; set; }
     }

@@ -5,7 +5,7 @@ namespace CandidateJourney.Application.Services
 {
     public interface IRestLocationService
     {
-        Task<List<LocationModel>> GetAllLocationsAsync(int pageNumber, string? filterString);
+        Task<List<LocationModel>> GetAllLocationsAsync(int pageNumber);
         Task<LocationModel> GetLocationByIdAsync(Guid id);
         Task<LocationModel> AddLocationAsync(CreateLocationCommand command);
         Task<LocationModel> UpdateLocationAsync(Guid locationId, UpdateLocationCommand command);

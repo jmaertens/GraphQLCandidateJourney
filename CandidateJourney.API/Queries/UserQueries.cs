@@ -8,7 +8,7 @@ namespace CandidateJourney.API.Queries
     public class UsersQueries
     {
         [GraphQLDescription("Retrieve all users.")]
-        public async Task<IEnumerable<User>> GetAllUsers([Service] CandidateJourneyDbContext context, CancellationToken cancellationToken)
+        public async Task<IEnumerable<User>> GetUsers([Service] CandidateJourneyDbContext context, CancellationToken cancellationToken)
         {
             return await context.Users.ToListAsync(cancellationToken);
         }

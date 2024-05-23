@@ -11,7 +11,7 @@ namespace Application.Services
     {
         public IQueryable<Event> GetEventsByDateRange(CandidateJourneyDbContext context, DateTime? from, DateTime? to)
         {
-            var query = context.Events.AsQueryable();
+            var query = context.Events.Include(e => e.Candidates).AsQueryable();
 
             if (from.HasValue)
             {
@@ -72,7 +72,7 @@ namespace Application.Services
 
             var candidate = new Candidate(input.FirstName, input.LastName, input.Email, input.PhoneNumber,
                                               input.Specialization, input.DateOfGraduation, input.CandidateType,
-                                              input.GraduationType, input.Interests, input.ExtraInfo);
+                                              input.GraduationType, input.ExtraInfo);
 
             @event.AddCandidate(candidate);
             await context.SaveChangesAsync(cancellationToken);
@@ -177,6 +177,40 @@ namespace Application.Services
 
             @event.Locations.Add(location);
             await context.SaveChangesAsync(cancellationToken);
+            return @event;
+        }
+        
+        public async Task<Event> AddCandidateToEventAsync(CandidateJourneyDbContext context, AddCandidateToEventInput input, Guid eventId, CancellationToken cancellationToken)
+        {
+            var validator = new AddCandidateToEventInputValidator();
+            var validationResult = await validator.ValidateAsync(input, cancellationToken);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => new Error(e.ErrorMessage, code: e.PropertyName));
+                throw new GraphQLException(errors);
+            }
+
+            var @event = await context.Events.Include(e => e.Candidates).FirstOrDefaultAsync(e => e.Id == eventId, cancellationToken);
+            if (@event == null)
+            {
+                throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));
+            }
+
+            var newCandidate = new Candidate(
+                input.FirstName,
+                input.LastName,
+                input.Email,
+                input.PhoneNumber,
+                input.Specialization,
+                input.DateOfGraduation,
+                input.CandidateType,
+                input.AcademicDegree,
+                input.ExtraInfo);
+
+            @event.AddCandidate(newCandidate);
+            await context.SaveChangesAsync(cancellationToken);
+
             return @event;
         }
     }

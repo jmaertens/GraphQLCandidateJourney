@@ -117,7 +117,6 @@ namespace CandidateJourney.API.Controllers
         public async Task<IActionResult> GetCandidateById(Guid eventId, Guid candidateId)
         {
             var candidate = await _eventService.GetCandidateByIdAsync(eventId, candidateId);
-            candidate.ContactHistories.ForEach(h => h.CreatedOn = h.CreatedOn.ToLocalTime());
             return Ok(candidate);
         }
         

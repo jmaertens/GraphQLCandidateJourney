@@ -1,5 +1,6 @@
 ﻿using Bogus;
 using CandidateJourney.Domain;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -45,7 +46,7 @@ namespace CandidateJourney.Infrastructure
             {
                 var users = _context.Users.ToList();
                 var locations = _context.Locations.ToList();
-                var events = GenerateFakeEvents(2000, users, locations);
+                var events = GenerateFakeEvents(200, users, locations);
                 _context.Events.AddRange(events);
                 _context.SaveChanges();
             }
@@ -84,7 +85,7 @@ namespace CandidateJourney.Infrastructure
                         Candidates = new List<Candidate>()
                     };
 
-                    var candidates = GenerateFakeCandidates(10);
+                    var candidates = GenerateFakeCandidates(5);
                     eventItem.Candidates.AddRange(candidates);
 
                     return eventItem;
@@ -98,7 +99,8 @@ namespace CandidateJourney.Infrastructure
 
         private (DateTime StartDateTime, DateTime EndDateTime) GenerateEventTimes(Faker f)
         {
-            var startDate = f.Date.Future();
+            DateTime startDate = f.Random.Bool(0.2f) ? f.Date.Past() : f.Date.Future();
+
             var startDateTime = new DateTime(
                 startDate.Year, startDate.Month, startDate.Day,
                 f.Random.Int(8, 17), f.PickRandom(new[] { 0, 30 }), 0);
@@ -126,7 +128,6 @@ namespace CandidateJourney.Infrastructure
                     f.Date.Past(5), 
                     f.PickRandom<CandidateIntent>(),
                     f.PickRandom<AcademicDegree>(),
-                    f.Lorem.Words(3).ToList(),
                     f.Lorem.Sentence()
                 ));
 

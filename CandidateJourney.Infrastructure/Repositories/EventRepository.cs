@@ -22,6 +22,7 @@ namespace CandidateJourney.Infrastructure.Repositories
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
                 .Include(e => e.Locations)
+                .Include(e => e.Candidates)
                 .Where(e => e.StartDateTime > now)
                 .OrderBy(e => e.StartDateTime)
                 .Skip((pageNumber - 1) * 6)
@@ -32,9 +33,7 @@ namespace CandidateJourney.Infrastructure.Repositories
         public async Task<List<Event>> GetAllUpcomingWithoutPagination()
         {
             var now = DateTime.Now.ToUniversalTime();
-
-            //var events = await _context.Events.Include(e => e.Locations).Include(e => e.Candidates).Where(e => e.StartDateTime > now).OrderByDescending(e => e.StartDateTime).ThenBy(e => e.StartDateTime).ThenByDescending(e => e.Description).ToListAsync();
-            var events = await _context.Events.Include(e => e.Candidates).ToListAsync();
+            var events = await _context.Events.Include(e => e.Locations).Include(e => e.Candidates).ToListAsync();
             return events;
         }
 
@@ -43,6 +42,7 @@ namespace CandidateJourney.Infrastructure.Repositories
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
                 .Include(e => e.Locations)
+                .Include(e => e.Candidates)
                 .Where(e => e.StartDateTime < now)
                 .OrderByDescending(e => e.StartDateTime)
                 .Skip((pageNumber - 1) * 6)
@@ -55,6 +55,7 @@ namespace CandidateJourney.Infrastructure.Repositories
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
                 .Include(e => e.Locations)
+                .Include(e => e.Candidates)
                 .Where(e => e.StartDateTime < now)
                 .Where(e => e.Name.ToLower().Contains(filterstring)
                 || e.Organizer.ToLower().Contains(filterstring))
@@ -69,6 +70,7 @@ namespace CandidateJourney.Infrastructure.Repositories
             var now = DateTime.Now.ToUniversalTime();
             return _context.Events
                 .Include(e => e.Locations)
+                .Include(e => e.Candidates)
                 .Where(e => e.StartDateTime > now)
                 .Where(e => e.Name.ToLower().Contains(filterstring)
                 || e.Organizer.ToLower().Contains(filterstring))

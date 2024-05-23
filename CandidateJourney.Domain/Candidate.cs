@@ -12,18 +12,14 @@
         public CandidateIntent CandidateType { get; private init; }
         public AcademicDegree GraduationType { get; private init; }
         public string? PictureName { get; private init; }
-        public List<string> Interests { get; private init; }
-        public List<ContactHistory> ContactHistories { get; set; }
         public string? ExtraInfo { get; private init; }
 
         private Candidate()
         {
-            ContactHistories = new List<ContactHistory>();
         }
 
         public Candidate(string firstName, string lastName, string email, string? phoneNumber,
-            string? specialization, DateTime? dateOfGraduation, CandidateIntent candidateType, AcademicDegree graduationType,
-            List<string> interests, string? extraInfo)
+            string? specialization, DateTime? dateOfGraduation, CandidateIntent candidateType, AcademicDegree graduationType, string? extraInfo)
         {
             Id = Guid.NewGuid();
             FirstName = firstName;
@@ -34,13 +30,7 @@
             DateOfGraduation = dateOfGraduation;
             CandidateType = candidateType;
             GraduationType = graduationType;
-            Interests = interests;
             ExtraInfo = extraInfo;
-        }
-
-        public void AddContactHistory(ContactHistory contactHistory)
-        {
-            ContactHistories.Add(contactHistory);
         }
     }
 }

@@ -20,7 +20,6 @@ builder.Services.AddPooledDbContextFactory<CandidateJourneyDbContext>(options =>
 
 // Services GraphQl
 builder.Services.AddScoped<IEventService, EventService>();
-builder.Services.AddScoped<IInterestService, InterestService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services
     .AddGraphQLServer()

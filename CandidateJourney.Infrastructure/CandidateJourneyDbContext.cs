@@ -9,8 +9,6 @@ namespace CandidateJourney.Infrastructure
         public DbSet<User> Users => Set<User>();
         public DbSet<Event> Events => Set<Event>();
         public DbSet<Location> Locations => Set<Location>();
-        public DbSet<Interest> Interests => Set<Interest>();
-        public DbSet<ContactHistory> ContactHistories => Set<ContactHistory>();
 
         public CandidateJourneyDbContext(DbContextOptions<CandidateJourneyDbContext> options)
             : base(options)
@@ -49,7 +47,6 @@ namespace CandidateJourney.Infrastructure
         private void UpdateBeforeSaveChanges()
         {
             var addedEvents = ChangeTracker.Entries<Event>().Where(eventEntry => eventEntry.State == EntityState.Added);
-            var addedContactHistories = ChangeTracker.Entries<ContactHistory>().Where(eventEntry => eventEntry.State == EntityState.Added);
             var changedEvents = ChangeTracker.Entries<Event>().Where(eventEntry => eventEntry.State == EntityState.Modified);
             var deletedEvents = ChangeTracker.Entries<Event>().Where(eventEntry => eventEntry.State == EntityState.Deleted);
             var deletedUsers = ChangeTracker.Entries<User>().Where(userEntry => userEntry.State == EntityState.Deleted);
@@ -74,12 +71,6 @@ namespace CandidateJourney.Infrastructure
             {
                 deletedUser.State = EntityState.Modified;
                 deletedUser.Property(user => user.IsDeleted).CurrentValue = true;
-            }
-
-            foreach (var contactHistory in addedContactHistories)
-            {
-                contactHistory.Property<Guid>("CreatedById").CurrentValue = Guid.NewGuid();
-                contactHistory.Property<DateTime>("CreatedOn").CurrentValue = DateTime.UtcNow;
             }
         }
     }

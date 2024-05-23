@@ -20,9 +20,9 @@ namespace CandidateJourney.API.Controllers
         [HttpGet]
         [SwaggerOperation(Summary = "Get all locations", Description = "Returns all locations")]
         [SwaggerResponse(200, "Ok")]
-        public async Task<IActionResult> GetAllLocations([FromQuery] int pageNumber, [FromQuery] string? filterString)
+        public async Task<IActionResult> GetAllLocations([FromQuery] int pageNumber)
         {
-            var locations = await _locationService.GetAllLocationsAsync(pageNumber, filterString);
+            var locations = await _locationService.GetAllLocationsAsync(pageNumber);
             return Ok(locations);
         }
 

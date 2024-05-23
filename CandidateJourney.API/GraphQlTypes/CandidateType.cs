@@ -1,4 +1,5 @@
-﻿using CandidateJourney.Domain;
+﻿using API.GraphQlTypes;
+using CandidateJourney.Domain;
 
 namespace CandidateJourney.API.GraphQLTypes
 {
@@ -46,19 +47,7 @@ namespace CandidateJourney.API.GraphQLTypes
             descriptor.Field(c => c.GraduationType)
                 .Type<NonNullType<EnumType<AcademicDegree>>>()
                 .Description("The graduation degree of the candidate");
-
-            descriptor.Field(c => c.PictureName)
-                .Type<StringType>()
-                .Description("The name of the candidate's picture");
-
-            descriptor.Field(c => c.Interests)
-                .Type<ListType<NonNullType<StringType>>>()
-                .Description("The interests of the candidate");
-
-            descriptor.Field(c => c.ContactHistories)
-                .Type<ListType<NonNullType<ObjectType<ContactHistory>>>>()
-                .Description("The contact histories of the candidate");
-
+        
             descriptor.Field(c => c.ExtraInfo)
                 .Type<StringType>()
                 .Description("Any extra information about the candidate");

@@ -11,7 +11,6 @@ public static class ServiceCollectionExtensions
     {
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IEventRepository, EventRepository>();
-        services.AddScoped<IInterestRepository, InterestRepository>();
         services.AddScoped<ILocationRepository, LocationRepository>();
 
         var connectionString = configuration.GetConnectionString("DefaultConnection");

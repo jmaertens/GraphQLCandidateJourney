@@ -15,7 +15,6 @@ namespace CandidateJourney.Application.Services
         Task<EventModel> UpdateEventAsync(Guid eventId, UpdateEventCommand command);
         Task<CandidateModel> GetCandidateByIdAsync(Guid eventId, Guid candidateId);
         Task<EventModel> ArchiveEventAsync(Guid eventId);
-        Task<EventModel> AddContactHistoryToCandidateInEvent(CreateContactHistoryCommand command);
         Task<EventModel> RemoveCandidateByIdAsync(Guid eventId, Guid candidateId);
         Task<EventModel> AddLocationToEventAsync(Guid eventId, Guid locationId);
     }

@@ -27,7 +27,6 @@ public class CreateEventTests
             LastName = "LastName",
             Email = "FirstName.LastName@email.com",
             CandidateType = CandidateIntent.Internship,
-            Interests = new List<string>() { "Microsoft Development" }
         };
         var eventModel = await eventService.AddCandidateToEventAsync(@event.Id, createCandidateCommand);
         // Assert stuff on result
@@ -36,7 +35,6 @@ public class CreateEventTests
         Assert.Equal("LastName", eventModel.Candidates[0].LastName);
         Assert.Equal("FirstName.LastName@email.com", eventModel.Candidates[0].Email);
         Assert.Equal(CandidateIntent.Internship, eventModel.Candidates[0].CandidateType);
-        Assert.Equal("Microsoft Development", eventModel.Candidates[0].Interests[0]);
     }
 
 

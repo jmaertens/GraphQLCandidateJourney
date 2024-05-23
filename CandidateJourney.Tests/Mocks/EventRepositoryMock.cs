@@ -14,17 +14,12 @@ public static class EventRepositoryMock
 
     public static List<Candidate> Candidates { get; set; } = new List<Candidate>
     {
-        new Candidate("firstName", "lastName", "candidate@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Internship, AcademicDegree.Bachelor, new List<string> { "interest1", "interest2" }, "extraInfo"),
-        new Candidate("firstName2", "lastName2", "candidate2@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Job, AcademicDegree.Doctorate, new List<string> { "interest3", "interest4" }, "extraInfo2")
+        new Candidate("firstName", "lastName", "candidate@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Internship, AcademicDegree.Bachelor, "extraInfo"),
+        new Candidate("firstName2", "lastName2", "candidate2@gmail.com", "phoneNumber", "specialization", DateTime.Now, CandidateIntent.Job, AcademicDegree.Doctorate, "extraInfo2")
     };
 
     public static Mock<IEventRepository> GetEventTemplateRepository()
     {
-        Candidates[0].ContactHistories = new List<ContactHistory>();
-        Candidates[1].ContactHistories = new List<ContactHistory>();
-        Events[0].AddCandidate(Candidates[0]);
-        Events[0].AddCandidate(Candidates[1]);
-
         var eventRepositoryMock = new Mock<IEventRepository>();
         eventRepositoryMock.Setup(repo => repo.FindById(It.IsAny<Guid>())).Returns(Task.FromResult(Events[0]));
 

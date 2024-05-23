@@ -13,7 +13,6 @@ namespace CandidateJourney.Application.Contracts.Commands
             string email,
             CandidateIntent candidateType,
             AcademicDegree academicDegree,
-            List<string> interests,
             string phoneNumber,
             string? specialization = null,
             DateTime? dateOfGraduation = null,
@@ -25,7 +24,6 @@ namespace CandidateJourney.Application.Contracts.Commands
             Email = email;
             CandidateType = candidateType;
             AcademicDegree = academicDegree;
-            Interests = interests ?? new List<string>();
             PhoneNumber = phoneNumber;
             Specialization = specialization;
             DateOfGraduation = dateOfGraduation;
@@ -42,7 +40,6 @@ namespace CandidateJourney.Application.Contracts.Commands
         public string? Specialization { get; set; }
         public DateTime? DateOfGraduation { get; set; }
         public string? PictureData { get; set; }
-        public List<string> Interests { get; set; }
         public string? ExtraInfo { get; set; }
     }
 
@@ -55,7 +52,6 @@ namespace CandidateJourney.Application.Contracts.Commands
             RuleFor(candidate => candidate.Email).NotEmpty().WithMessage("Email is required");
             RuleFor(candidate => candidate.CandidateType).IsInEnum();
             RuleFor(candidate => candidate.AcademicDegree).IsInEnum();
-            RuleFor(candidate => candidate.Interests).NotEmpty().WithMessage("There has to be at least one interest");
         }
     }
 }

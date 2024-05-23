@@ -9,6 +9,7 @@ namespace CandidateJourney.API.Queries
     public class EventQueries
     {
         [GraphQLDescription("Retrieve events within a specific date range.")]
+        [UsePaging]
         [UseFiltering]
         [UseSorting]
         public IQueryable<Event> GetEvents(
