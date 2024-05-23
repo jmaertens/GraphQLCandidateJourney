@@ -17,14 +17,6 @@ namespace CandidateJourney.Infrastructure.Configurations
             builder.Property(x => x.Address)
                    .IsRequired()
                    .HasMaxLength(500);
-
-            builder.HasMany(l => l.Events)
-                   .WithMany(e => e.Locations)
-                   .UsingEntity<Dictionary<string, object>>(
-                        "EventLocation",
-                        j => j.HasOne<Event>().WithMany().HasForeignKey("EventId"),
-                        j => j.HasOne<Location>().WithMany().HasForeignKey("LocationId")
-                   );
         }
     }
 }

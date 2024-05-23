@@ -43,6 +43,12 @@ namespace CandidateJourney.Application.Services
             return _mapper.Map<List<EventModel>>(events);
         }
 
+        public async Task<List<EventModel>> GetAllUpcomingEventsWithoutPaginationAsync()
+        {
+            var events = await _eventRepository.GetAllUpcomingWithoutPagination();
+            return _mapper.Map<List<EventModel>>(events);
+        }
+
         public async Task<List<EventModel>> GetAllPreviousEventsAsync(int pageNumber, string? filterString)
         {
             List<Event> events;

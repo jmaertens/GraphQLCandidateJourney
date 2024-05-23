@@ -11,7 +11,7 @@ namespace Application.Services
     {
         public IQueryable<Event> GetEventsByDateRange(CandidateJourneyDbContext context, DateTime? from, DateTime? to)
         {
-            var query = context.Events.Include(e => e.Candidates).Include(e => e.Locations).AsQueryable();
+            var query = context.Events.AsQueryable();
 
             if (from.HasValue)
             {
@@ -134,7 +134,6 @@ namespace Application.Services
         
         public async Task<Event> DeleteCandidateByIdAsync(CandidateJourneyDbContext context, Guid eventId, Guid candidateId, CancellationToken cancellationToken)
         {
-            //Check
             var @event = await context.Events.Include(e => e.Candidates).FirstOrDefaultAsync(e => e.Id == eventId);
             if (@event == null)
                 throw new GraphQLException(new Error($"Event with Id {eventId} not found.", "EVENT_NOT_FOUND"));

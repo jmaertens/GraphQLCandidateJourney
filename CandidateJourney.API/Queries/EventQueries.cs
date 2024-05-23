@@ -9,7 +9,6 @@ namespace CandidateJourney.API.Queries
     public class EventQueries
     {
         [GraphQLDescription("Retrieve events within a specific date range.")]
-        [UsePaging(IncludeTotalCount = true, DefaultPageSize = 10)]
         [UseFiltering]
         [UseSorting]
         public IQueryable<Event> GetEvents(
@@ -41,6 +40,5 @@ namespace CandidateJourney.API.Queries
         {
             return await eventService.GetCandidateByIdAsync(context, eventId, candidateId, cancellationToken);
         }
-
     }
 }

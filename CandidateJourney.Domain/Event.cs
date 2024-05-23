@@ -38,6 +38,7 @@
         private Event()
         {
             Locations = new List<Location>();
+            Candidates = new List<Candidate>();
         }
 
         public Event(string name, string organizer, DateTime startDateTime, DateTime? endDateTime, 
@@ -53,6 +54,7 @@
             EventLink = eventLink;
             IsDeleted = false;
             Locations = new List<Location>();
+            Candidates = new List<Candidate>();
         }
     }
 }

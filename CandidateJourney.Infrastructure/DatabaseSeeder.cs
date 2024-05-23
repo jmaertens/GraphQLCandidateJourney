@@ -32,8 +32,12 @@ namespace CandidateJourney.Infrastructure
             {
                 var location1 = new Location { Id = Guid.NewGuid(), Name = "Location 1", Address = "Address 1" };
                 var location2 = new Location { Id = Guid.NewGuid(), Name = "Location 2", Address = "Address 2" };
+                var location3 = new Location { Id = Guid.NewGuid(), Name = "Location 3", Address = "Address 3" };
+                var location4 = new Location { Id = Guid.NewGuid(), Name = "Location 4", Address = "Address 4" };
                 _context.Locations.Add(location1);
                 _context.Locations.Add(location2);
+                _context.Locations.Add(location3);
+                _context.Locations.Add(location4);
                 _context.SaveChanges();
             }
 
@@ -66,10 +70,9 @@ namespace CandidateJourney.Infrastructure
                 {
                     var (startDateTime, endDateTime) = GenerateEventTimes(f);
 
-                    return new Event(
+                    var eventItem = new Event(
                         $"{f.PickRandom(SeedData.TechWords)} {f.PickRandom(SeedData.EventDescriptors)} {startDateTime.Year}", // Name
                         f.Company.CompanyName(),          // Organizer
-                        //f.PickRandom(SeedData.BelgianCities), // Location
                         startDateTime,                    // StartDateTime
                         endDateTime,                      // EndDateTime
                         f.PickRandom<AudienceCategory>(), // TargetAudience
@@ -77,14 +80,19 @@ namespace CandidateJourney.Infrastructure
                         f.Internet.Url()                  // EventLink
                     )
                     {
-                        Locations = new List<Location> { f.PickRandom(locations) }
-                    }; ;
+                        Locations = new List<Location> { f.PickRandom(locations) },
+                        Candidates = new List<Candidate>()
+                    };
+
+                    var candidates = GenerateFakeCandidates(10);
+                    eventItem.Candidates.AddRange(candidates);
+
+                    return eventItem;
                 })
                 .RuleFor(e => e.CreatedBy, f => f.PickRandom(users))
                 .RuleFor(e => e.CreatedOn, f => f.Date.Past())
-                .RuleFor(e => e.Candidates, f => new List<Candidate>())
                 .RuleFor(e => e.IsDeleted, f => false);
-        
+
             return faker.Generate(count);
         }
 
@@ -104,6 +112,25 @@ namespace CandidateJourney.Infrastructure
             }
 
             return (startDateTime, endDateTime);
+        }
+
+        private List<Candidate> GenerateFakeCandidates(int count)
+        {
+            var faker = new Faker<Candidate>()
+                .CustomInstantiator(f => new Candidate(
+                    f.Person.FirstName,
+                    f.Person.LastName,
+                    f.Person.Email,
+                    f.Phone.PhoneNumber(),
+                    f.Name.JobType(),
+                    f.Date.Past(5), 
+                    f.PickRandom<CandidateIntent>(),
+                    f.PickRandom<AcademicDegree>(),
+                    f.Lorem.Words(3).ToList(),
+                    f.Lorem.Sentence()
+                ));
+
+            return faker.Generate(count);
         }
     }
 }

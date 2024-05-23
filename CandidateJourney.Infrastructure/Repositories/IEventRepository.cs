@@ -5,6 +5,7 @@ namespace CandidateJourney.Infrastructure.Repositories
     public interface IEventRepository
     {
         Task<List<Event>> GetAllUpcoming(int pageNumber);
+        Task<List<Event>> GetAllUpcomingWithoutPagination();
         Task<List<Event>> GetAllPrevious(int pageNumber);
         Task<List<Event>> FilterAllUpcoming(int pageNumber, string filterstring);
         Task<List<Event>> FilterAllPrevious(int pageNumber, string filterstring);

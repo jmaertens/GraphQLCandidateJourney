@@ -6,6 +6,7 @@ namespace CandidateJourney.Application.Services
     public interface IRestEventService
     {
         Task<List<EventModel>> GetAllUpcomingEventsAsync(int pageNumber, string? filterString);
+        Task<List<EventModel>> GetAllUpcomingEventsWithoutPaginationAsync();
         Task<List<EventModel>> GetAllPreviousEventsAsync(int pageNumber, string? filterString);
         Task<EventModel> GetEventByIdAsync(Guid id);
         Task<EventModel> AddEventAsync(CreateEventCommand command);

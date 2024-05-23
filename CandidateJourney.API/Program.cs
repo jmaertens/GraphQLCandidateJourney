@@ -4,14 +4,19 @@ using Application.Services;
 using CandidateJourney.Application;
 using CandidateJourney.Infrastructure;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Hosting;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddPooledDbContextFactory<CandidateJourneyDbContext>(options =>
+{
+    options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+});
 
 // Services GraphQl
 builder.Services.AddScoped<IEventService, EventService>();
@@ -19,6 +24,12 @@ builder.Services.AddScoped<IInterestService, InterestService>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services
     .AddGraphQLServer()
+    .ModifyOptions(o =>
+    {
+        o.EnableDefer = true;
+    })
+    .RegisterDbContext<CandidateJourneyDbContext>(DbContextKind.Pooled)
+    .RegisterDbContext<CandidateJourneyDbContext>()
     .AddAPITypes()
     .AddFiltering()
     .AddSorting()
@@ -62,7 +73,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
-
+/*
 app.Use(async (context, next) =>
 {
     if (context.Request.Path == "/index.html")
@@ -73,7 +84,7 @@ app.Use(async (context, next) =>
     {
         await next();
     }
-});
+});*/
 
 // Mapping
 app.MapGraphQL();

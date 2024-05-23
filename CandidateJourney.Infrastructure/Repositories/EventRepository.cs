@@ -29,6 +29,15 @@ namespace CandidateJourney.Infrastructure.Repositories
                 .ToListAsync();
         }
 
+        public async Task<List<Event>> GetAllUpcomingWithoutPagination()
+        {
+            var now = DateTime.Now.ToUniversalTime();
+
+            //var events = await _context.Events.Include(e => e.Locations).Include(e => e.Candidates).Where(e => e.StartDateTime > now).OrderByDescending(e => e.StartDateTime).ThenBy(e => e.StartDateTime).ThenByDescending(e => e.Description).ToListAsync();
+            var events = await _context.Events.Include(e => e.Candidates).ToListAsync();
+            return events;
+        }
+
         public Task<List<Event>> GetAllPrevious(int pageNumber)
         {
             var now = DateTime.Now.ToUniversalTime();

@@ -13,6 +13,6 @@ public class CandidateJourneyDbContextFactory : IDesignTimeDbContextFactory<Cand
 
         optionsBuilder.UseSqlServer("Server=localhost;Database=ordina-candidate-journey;Trusted_Connection=True;");
 
-        return new CandidateJourneyDbContext(optionsBuilder.Options, null!);
+        return new CandidateJourneyDbContext(optionsBuilder.Options);
     }
 }

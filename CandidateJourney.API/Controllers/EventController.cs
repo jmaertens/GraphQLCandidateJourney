@@ -27,6 +27,15 @@ namespace CandidateJourney.API.Controllers
             return Ok(events);
         }
 
+        [HttpGet("GetAllUpcomingEventsWithoutPagination")]
+        [SwaggerOperation(Summary = "Get all upcoming events without pagination", Description = "Returns all upcoming events")]
+        [SwaggerResponse(200, "Ok")]
+        public async Task<IActionResult> GetAllUpcomingEventsWithoutPagination()
+        {
+            var events = await _eventService.GetAllUpcomingEventsWithoutPaginationAsync();
+            return Ok(events);
+        }
+
         [HttpGet("GetAllPreviousEvents")]
         [SwaggerOperation(Summary = "Get all previous events", Description = "Returns all previous events")]
         [SwaggerResponse(200, "Ok")]

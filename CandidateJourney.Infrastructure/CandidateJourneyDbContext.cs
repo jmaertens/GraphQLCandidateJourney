@@ -1,27 +1,21 @@
-using System.Diagnostics;
-using System.Threading;
 using CandidateJourney.Domain;
-using CandidateJourney.Infrastructure.Migrations;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-
 namespace CandidateJourney.Infrastructure
 {
     public class CandidateJourneyDbContext : DbContext
     {
-        protected readonly IHttpContextAccessor _httpContextAccessor;
         private bool _updating;
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<Event> Events { get; set; }
-        public DbSet<Location> Locations { get; set; }
-        public DbSet<Interest> Interests { get; set; }
-        public DbSet<ContactHistory> ContactHistories { get; set; }
+        public DbSet<User> Users => Set<User>();
+        public DbSet<Event> Events => Set<Event>();
+        public DbSet<Location> Locations => Set<Location>();
+        public DbSet<Interest> Interests => Set<Interest>();
+        public DbSet<ContactHistory> ContactHistories => Set<ContactHistory>();
 
-        public CandidateJourneyDbContext(DbContextOptions<CandidateJourneyDbContext> options, IHttpContextAccessor httpContextAccessor) : base(options)
+        public CandidateJourneyDbContext(DbContextOptions<CandidateJourneyDbContext> options)
+            : base(options)
         {
-            _httpContextAccessor = httpContextAccessor;
-            this.ChangeTracker.LazyLoadingEnabled = false;
+            
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

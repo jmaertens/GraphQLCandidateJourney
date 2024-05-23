@@ -30,4 +30,8 @@
       <ProjectReference Include="..\CandidateJourney.Application\Application.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="GraphQlTypes\DataLoader\" />
+    </ItemGroup>
+
 </Project>
