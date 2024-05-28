@@ -66,80 +66,17 @@ namespace CandidateJourney.API.GraphQLTypes
                 .Type<NonNullType<ObjectType<User>>>()
                 .Description("The user who created the event");
 
-            //descriptor.Field(e => e.CreatedBy)
-            //    .ResolveWith<UserCreatedByResolver>(e => e.ResolveCreatedByAsync(default!, default!, default))
-            //    .Type<NonNullType<ObjectType<User>>>()
-            //    .Description("The user who created the event");
-
-            //descriptor.Field(e => e.Candidates)
-            //    .Type<ListType<NonNullType<ObjectType<Candidate>>>>()
-            //    .Description("The candidates for the event");
-
             descriptor.Field(e => e.Candidates)
-                .ResolveWith<EventCandidatesResolver>(e => e.ResolveCandidatesAsync(default!, default!, default))
                 .Type<ListType<NonNullType<ObjectType<Candidate>>>>()
                 .Description("The candidates for the event");
-
-            //descriptor.Field(e => e.Locations)
-            //    .Type<ListType<NonNullType<ObjectType<Location>>>>()
-            //    .Description("The locations of the event");
-
+            
             descriptor.Field("locations")
                 .ResolveWith<EventLocationResolver>(e => e.ResolveLocationAsync(default!, default!, default))
                 .Type<ListType<NonNullType<ObjectType<Location>>>>()
                 .Description("The locations of the event");
         }
     }
-
-    //1 op 1
-    public class UserCreatedByResolver
-    {
-        public async Task<User> ResolveCreatedByAsync([Parent] Event @event, IUsersDataLoader dataLoader, CancellationToken cancellationToken)
-        {
-            if (@event.CreatedBy == null)
-            {
-                throw new InvalidOperationException("CreatedBy property of the event cannot be null");
-            }
-
-            return await dataLoader.LoadAsync(@event.CreatedBy.Id, cancellationToken);
-        }
-
-        [DataLoader]
-        internal static async Task<IReadOnlyDictionary<Guid, User>> GetUsersAsync(IReadOnlyList<Guid> userIds, IDbContextFactory<CandidateJourneyDbContext> contextFactory, CancellationToken cancellationToken)
-        {
-            await using var context = contextFactory.CreateDbContext();
-            var users = await context.Users
-                .Where(u => userIds.Contains(u.Id))
-                .ToListAsync(cancellationToken);
-
-            return users.ToDictionary(u => u.Id);
-        }
-    }
-
-    //1 op veel
-    public class EventCandidatesResolver
-    {
-        public async Task<IEnumerable<Candidate>> ResolveCandidatesAsync([Parent] Event @event, ICandidatesDataLoader dataLoader, CancellationToken cancellationToken)
-        {
-            return await dataLoader.LoadAsync(@event.Id, cancellationToken);
-        }
-
-        [DataLoader]
-        internal static async Task<IReadOnlyDictionary<Guid, IEnumerable<Candidate>>> GetCandidates(IReadOnlyList<Guid> eventIds, IDbContextFactory<CandidateJourneyDbContext> contextFactory, CancellationToken cancellationToken)
-        {
-            await using var context = contextFactory.CreateDbContext();
-            var eventsWithCandidates = await context.Events
-                                                    .Where(e => eventIds.Contains(e.Id))
-                                                    .Include(e => e.Candidates)
-                                                    .ToListAsync(cancellationToken);
-
-            return eventsWithCandidates.ToDictionary(
-                @event => @event.Id,
-                @event => @event.Candidates.AsEnumerable());
-        }
-    }
-
-    //Veel op veel
+    
     public class EventLocationResolver
     {
         public async Task<IEnumerable<Location>> ResolveLocationAsync([Parent] Event @event, ILocationsDataLoader dataLoader, CancellationToken cancellationToken)

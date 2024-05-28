@@ -31,14 +31,8 @@ namespace CandidateJourney.Infrastructure
 
             if (!_context.Locations.Any())
             {
-                var location1 = new Location { Id = Guid.NewGuid(), Name = "Location 1", Address = "Address 1" };
-                var location2 = new Location { Id = Guid.NewGuid(), Name = "Location 2", Address = "Address 2" };
-                var location3 = new Location { Id = Guid.NewGuid(), Name = "Location 3", Address = "Address 3" };
-                var location4 = new Location { Id = Guid.NewGuid(), Name = "Location 4", Address = "Address 4" };
-                _context.Locations.Add(location1);
-                _context.Locations.Add(location2);
-                _context.Locations.Add(location3);
-                _context.Locations.Add(location4);
+                var locations = GenerateFakeLocations(50); 
+                _context.Locations.AddRange(locations);
                 _context.SaveChanges();
             }
 
@@ -46,23 +40,12 @@ namespace CandidateJourney.Infrastructure
             {
                 var users = _context.Users.ToList();
                 var locations = _context.Locations.ToList();
-                var events = GenerateFakeEvents(200, users, locations);
+                var events = GenerateFakeEvents(5000, users, locations);
                 _context.Events.AddRange(events);
                 _context.SaveChanges();
             }
         }
 
-        private List<User> GenerateFakeUsers(int count)
-        {
-            var faker = new Faker<User>()
-                .CustomInstantiator(f => new User(
-                    f.Person.FirstName,
-                    f.Person.LastName,
-                    f.Person.Email
-                ));
-
-            return faker.Generate(count);
-        }
 
         private List<Event> GenerateFakeEvents(int count, List<User> users, List<Location> locations)
         {
@@ -70,7 +53,7 @@ namespace CandidateJourney.Infrastructure
                 .CustomInstantiator(f =>
                 {
                     var (startDateTime, endDateTime) = GenerateEventTimes(f);
-
+                    
                     var eventItem = new Event(
                         $"{f.PickRandom(SeedData.TechWords)} {f.PickRandom(SeedData.EventDescriptors)} {startDateTime.Year}", // Name
                         f.Company.CompanyName(),          // Organizer
@@ -81,11 +64,11 @@ namespace CandidateJourney.Infrastructure
                         f.Internet.Url()                  // EventLink
                     )
                     {
-                        Locations = new List<Location> { f.PickRandom(locations) },
+                        Locations = locations.OrderBy(x => Guid.NewGuid()).Take(5).ToList(),
                         Candidates = new List<Candidate>()
                     };
 
-                    var candidates = GenerateFakeCandidates(5);
+                    var candidates = GenerateFakeCandidates(10);
                     eventItem.Candidates.AddRange(candidates);
 
                     return eventItem;
@@ -129,6 +112,32 @@ namespace CandidateJourney.Infrastructure
                     f.PickRandom<CandidateIntent>(),
                     f.PickRandom<AcademicDegree>(),
                     f.Lorem.Sentence()
+                ));
+
+            return faker.Generate(count);
+        }
+
+        private List<Location> GenerateFakeLocations(int count)
+        {
+            var faker = new Faker<Location>()
+                .CustomInstantiator(f => new Location
+                {
+                    Id = Guid.NewGuid(),
+                    Name = $"Location {f.IndexFaker + 1}",
+                    Address = f.Address.StreetAddress()
+                });
+
+            return faker.Generate(count);
+        }
+
+
+        private List<User> GenerateFakeUsers(int count)
+        {
+            var faker = new Faker<User>()
+                .CustomInstantiator(f => new User(
+                    f.Person.FirstName,
+                    f.Person.LastName,
+                    f.Person.Email
                 ));
 
             return faker.Generate(count);

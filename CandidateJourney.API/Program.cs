@@ -72,18 +72,6 @@ builder.Services.AddAuthorization();
 builder.Services.AddCandidateJourneyApplication(builder.Configuration);
 
 var app = builder.Build();
-/*
-app.Use(async (context, next) =>
-{
-    if (context.Request.Path == "/index.html")
-    {
-        context.Response.Redirect("/graphql");
-    }
-    else
-    {
-        await next();
-    }
-});*/
 
 // Mapping
 app.MapGraphQL();
